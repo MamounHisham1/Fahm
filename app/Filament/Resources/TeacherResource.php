@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeacherResource\Pages;
 use App\Filament\Resources\TeacherResource\RelationManagers;
-use App\Models\Teacher;
+use App\Models\Profile;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,27 +15,40 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TeacherResource extends Resource
 {
-    protected static ?string $model = Teacher::class;
+    protected static ?string $model = Profile::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static ?string $modelLabel = 'Teacher';
+
+    protected static ?string $pluralModelLabel = 'Teachers';
+
+    protected static ?string $tenantOwnershipRelationship = 'teachers';
+
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereHas('clients', function ($query) {
+            $query->wherePivot('role', 'teacher');
+        });
+    }
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('profile_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('client_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('client_id')
+                    ->relationship('client', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('slug')
+                Forms\Components\Select::make('profile_id')
+                    ->relationship('profile', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
-                Forms\Components\TextInput::make('gender')
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'teacher' => 'Teacher',
+                    ])
+                    ->default('teacher')
+                    ->disabled()
                     ->required(),
             ]);
     }
@@ -44,28 +57,7 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('profile_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('client_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('gender')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('profile.name'),
             ])
             ->filters([
                 //

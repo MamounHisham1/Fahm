@@ -27,7 +27,7 @@ class SubjectResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('slug')
                     ->required(),
-                Forms\Components\TextInput::make('teacher_id')
+                Forms\Components\TextInput::make('profile_id')
                     ->required()
                     ->numeric(),
             ]);
@@ -49,7 +49,7 @@ class SubjectResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('teacher_id')
+                Tables\Columns\TextColumn::make('profile_id')
                     ->numeric()
                     ->sortable(),
             ])

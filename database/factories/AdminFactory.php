@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Client;
-use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Subject>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Admin>
  */
-class SubjectFactory extends Factory
+class AdminFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +18,9 @@ class SubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id' => Client::inRandomOrder()->first()->id,
-            'name' => fake()->word(),
+            'name' => fake()->name(),
+            'email' => fake()->email(),
+            'password' => Hash::make('password'),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LessonStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,13 @@ class Lesson extends Model
     use HasFactory, HasSlug;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    protected function casts(): array
+    {
+        return [
+            'status' => LessonStatus::class,
+        ];
+    }
 
     public function getSlugOptions(): SlugOptions
     {
@@ -32,8 +40,8 @@ class Lesson extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function teacher(): BelongsTo
+    public function profile(): BelongsTo
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Profile::class);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum ProfileTypes: string
+enum UserRole: string
 {
     case Admin = 'admin';
     case Student = 'student';
-    case Client = 'client';
+    case Teacher = 'teacher';
 }

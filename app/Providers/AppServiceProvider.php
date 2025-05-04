@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Select::configureUsing(fn (Select $select) => $select->native(false));
+        Select::configureUsing(fn (Select $select) => $select->native(false)->inlineLabel());
+        SelectFilter::configureUsing(fn (SelectFilter $selectFilter) => $selectFilter->native(false));
+        TextInput::configureUsing(fn (TextInput $textInput) => $textInput->inlineLabel());
+        Textarea::configureUsing(fn (Textarea $textarea) => $textarea->inlineLabel());
+        DatePicker::configureUsing(fn (DatePicker $datePicker) => $datePicker->inlineLabel());
+        FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload->inlineLabel());
+        RichEditor::configureUsing(fn (RichEditor $richEditor) => $richEditor->inlineLabel());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,8 +18,13 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create();
+        $client = $user->client;
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => $user->id,
+            'client_id' => $client->id,
+            'status' => fake()->randomElement(['active', 'inactive']),
+            'gender' => fake()->randomElement(['male', 'female']),
             'avatar' => fake()->imageUrl(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),

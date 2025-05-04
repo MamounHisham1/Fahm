@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\RegisterController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('home');
 
+Route::view('/', 'home')->name('home');
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 

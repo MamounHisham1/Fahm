@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teachers', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('profile_id')->constrained()->cascadeOnDelete()->unique();
-            $table->foreignId('client_id')->constrained()->cascadeOnDelete()->nullable();
             $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('status');
-            $table->enum('gender', ['male', 'female']);
+            $table->string('email')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('admins');
     }
 };

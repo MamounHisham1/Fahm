@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\UserRole;
 use App\Filament\Resources\ClientResource\Pages;
 use App\Filament\Resources\ClientResource\RelationManagers;
 use App\Models\Client;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -14,10 +17,16 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ClientResource extends Resource
 {
     protected static ?string $model = Client::class;
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->email === 'admin@admin.com';
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
@@ -25,50 +34,28 @@ class ClientResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required()
-                    ->searchable(),
-                TextInput::make('website')
-                    ->url()
-                    ->prefix('https://'),
-                TextInput::make('facebook')
-                    ->url()
-                    ->prefix('https://www.facebook.com/'),
-                TextInput::make('instagram')
-                    ->url()
-                    ->prefix('https://www.instagram.com/'),
-                TextInput::make('youtube')
-                    ->url()
-                    ->prefix('https://www.youtube.com/'),
-                TextInput::make('whatsapp')
-                    ->url()
-                    ->prefix('https://wa.me/'),
-                TextInput::make('telegram')
-                    ->url()
-                    ->prefix('https://t.me/'),
-            ]);
+                TextInput::make('name')
+                    ->required(),
+                TextInput::make('domain'),
+                FileUpload::make('logo'),
+                RichEditor::make('description'),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('profile.id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('students_count')
+                    ->label('Students')
+                    ->counts('students')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('website')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('facebook')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('instagram')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('youtube')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('whatsapp')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('telegram')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('teachers_count')
+                    ->label('Teachers')
+                    ->counts('teachers')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

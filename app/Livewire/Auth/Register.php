@@ -21,9 +21,6 @@ class Register extends Component
 
     public string $password_confirmation = '';
 
-    /**
-     * Handle an incoming registration request.
-     */
     public function register(): void
     {
         $validated = $this->validate([
@@ -39,5 +36,10 @@ class Register extends Component
         Auth::login($user);
 
         $this->redirect(route('home', absolute: false), navigate: true);
+    }
+
+    public function render()
+    {
+        return view('auth.register');
     }
 }

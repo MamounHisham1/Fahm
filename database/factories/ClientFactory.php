@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,14 +19,10 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'name' => fake()->name(),
-            'website' => fake()->url(),
-            'facebook' => fake()->url(),
-            'instagram' => fake()->url(),
-            'youtube' => fake()->url(),
-            'whatsapp' => fake()->url(),
-            'telegram' => fake()->url(),
+            'name' => fake()->company(),
+            'domain' => fake()->domainName(),
+            'logo' => fake()->imageUrl(),
+            'description' => fake()->realText(),
         ];
     }
 }
