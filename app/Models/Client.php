@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Client extends Model
 {
@@ -29,5 +30,10 @@ class Client extends Model
     public function teachers(): HasMany
     {
         return $this->hasMany(User::class)->where('role', UserRole::Teacher);
+    }
+
+    public function admin(): HasOne
+    {
+        return $this->hasOne(User::class)->where('role', UserRole::Admin);
     }
 }

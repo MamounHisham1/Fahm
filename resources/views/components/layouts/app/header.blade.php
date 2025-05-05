@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
+    <body class="min-h-screen bg-white dark:bg-zinc-800 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
         <flux:header container sticky class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
@@ -12,9 +12,26 @@
             </a>
 
             <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item icon="layout-grid" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
+                <flux:navbar.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
                     {{ __('Home') }}
                 </flux:navbar.item>
+                <flux:navbar.item icon="building-library" href="#about" :current="request()->routeIs('about')">
+                    {{ __('About') }}
+                </flux:navbar.item>
+                <flux:navbar.item icon="rocket-launch" href="#features" :current="request()->routeIs('features')">
+                    {{ __('Features') }}
+                </flux:navbar.item>
+                <flux:navbar.item icon="document-text" href="#blog" :current="request()->routeIs('blog')">
+                    {{ __('Blog') }}
+                </flux:navbar.item>
+                <flux:navbar.item icon="chat-bubble-left-right" href="#contact" :current="request()->routeIs('contact')">
+                    {{ __('Contact') }}
+                </flux:navbar.item>
+                @auth
+                    <flux:navbar.item icon="squares-2x2" :href="route('filament.dashboard.pages.dashboard')" :current="request()->routeIs('filament.dashboard.pages.dashboardN')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:navbar.item>
+                @endauth
             </flux:navbar>
 
             <flux:spacer />
@@ -64,6 +81,26 @@
                 </flux:menu>
             </flux:dropdown>
             @endauth
+
+            @guest
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="{{ route('login') }}" 
+                    class="transform transition-all duration-200 hover:scale-105 inline-flex items-center justify-center px-6 py-2 text-base font-semibold rounded-full text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
+                    wire:navigate
+                >
+                    {{ __('Log In') }}
+                </a>
+                <a href="{{ route('register') }}" 
+                    class="transform transition-all duration-200 hover:scale-105 inline-flex items-center justify-center px-6 py-2 text-base font-semibold rounded-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-400/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" 
+                    wire:navigate
+                >
+                    {{ __('Register') }}
+                    <svg class="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            @endguest
         </flux:header>
 
         <!-- Mobile Menu -->
@@ -76,22 +113,47 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')">
-                    <flux:navlist.item icon="layout-grid" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
-                    {{ __('Home') }}
+                    <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
+                        {{ __('Home') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="building-library" href="#about" :current="request()->routeIs('about')">
+                        {{ __('About') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="rocket-launch" href="#features" :current="request()->routeIs('features')">
+                        {{ __('Features') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="document-text" href="#blog" :current="request()->routeIs('blog')">
+                        {{ __('Blog') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="chat-bubble-left-right" href="#contact" :current="request()->routeIs('contact')">
+                        {{ __('Contact') }}
                     </flux:navlist.item>
                 </flux:navlist.group>
-            </flux:navlist>
 
-            <flux:spacer />
+                @auth
+                <flux:navlist.group :heading="__('Account')">
+                    <flux:navlist.item icon="squares-2x2" :href="route('filament.dashboard.pages.dashboard')" :current="request()->routeIs('filament.dashboard.pages.dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="user-circle" :href="route('settings.profile')" :current="request()->routeIs('settings.profile')" wire:navigate>
+                        {{ __('Profile') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="cog-6-tooth" :href="route('settings.profile')" :current="request()->routeIs('settings')" wire:navigate>
+                        {{ __('Settings') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+                @endauth
 
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
+                @guest
+                <flux:navlist.group :heading="__('Account')">
+                    <flux:navlist.item :href="route('login')" wire:navigate>
+                        {{ __('Log In') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="user-plus" :href="route('register')" wire:navigate>
+                        {{ __('Register') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+                @endguest
             </flux:navlist>
         </flux:sidebar>
 

@@ -1,6 +1,7 @@
 <section class="bg-white dark:bg-gray-900">
     <div class="flex justify-center min-h-screen">
-        <div class="hidden bg-cover lg:block lg:w-2/5" style="background-image: url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')">
+        <div class="hidden bg-cover lg:block lg:w-2/5"
+            style="background-image: url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')">
         </div>
 
         <div class="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
@@ -10,56 +11,78 @@
                 </h1>
 
                 <p class="mt-4 text-gray-500 dark:text-gray-400">
-                    Let’s get you all set up so you can verify your personal account and begin setting up your profile.
+                    Let's get you all set up so you can verify your personal account and begin setting up your profile.
                 </p>
 
-                <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Username</label>
-                        <input type="text" name="username" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                <form class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-1" enctype="multipart/form-data"
+                    wire:submit="register">
+
+                    {{-- Personal Information Section --}}
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <h2 class="text-xl font-semibold tracking-wider text-gray-800 capitalize dark:text-white mb-4">
+                            Personal Information
+                        </h2>
+
+                        <div class="space-y-4">
+                            <x-input name="name" label="Name" required />
+
+                            <x-input name="email" label="Email" type="email" required />
+
+                            <x-input name="password" label="Password" type="password" required />
+
+                            <x-input name="password_confirmation" label="Confirm Password" type="password" required />
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Email</label>
-                        <input type="email" name="email" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    {{-- Company Information Section --}}
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <h2 class="text-xl font-semibold tracking-wider text-gray-800 capitalize dark:text-white mb-4">
+                            School Information
+                        </h2>
+
+                        <div class="space-y-4">
+                            <x-input name="school_name" label="School Name" required />
+
+                            <x-file-uploader name="logo" label="School Logo" accept="image/*" maxSize="2"
+                                recommendedSize="200x200px" />
+                            <x-textarea name="description" label="School Description" required />
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Password</label>
-                        <input type="password" name="password" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <div class="flex items-center mt-4">
+                        <input id="terms" type="checkbox" wire:model="terms" required
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="terms" class="ml-2 text-sm font-medium text-gray-600 dark:text-gray-300">I agree
+                            to the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">Terms and
+                                Conditions</a></label>
                     </div>
 
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Confirm password</label>
-                        <input type="password" name="password_confirmation" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <div class="flex flex-col gap-4">
+                        <button type="submit"
+                            class="transform transition-all duration-200 hover:scale-105 inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full shadow-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <span>Create Account</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-3 -mr-1 rtl:-scale-x-100" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 text-gray-500 bg-white dark:bg-gray-900">Or</span>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('login') }}"
+                            class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Sign in to your account
+                        </a>
                     </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Industry name</label>
-                        <input type="text" name="industry" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Industry description</label>
-                        <textarea name="industry_description" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"></textarea>
-                    </div>
-
-                    {{-- logo --}}
-                    <div>
-                        <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Logo</label>
-                        <input type="file" name="logo" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
-                    </div>
-
-                    <button
-                        class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                        <span>Sign Up </span>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 rtl:-scale-x-100" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
                 </form>
             </div>
         </div>

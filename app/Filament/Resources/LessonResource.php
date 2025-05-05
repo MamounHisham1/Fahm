@@ -70,8 +70,10 @@ class LessonResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])->modifyQueryUsing(function (Builder $query): Builder {
-                $client = Client::where('user_id', Auth::user()->id)->first();
-                if (Auth::user()->email != 'admin@admin.com') {
+                $user = Auth::user();
+                $client = $user->client;
+                dd($user);
+                if ($user->email != 'admin@admin.com') {
                     return $query->where('client_id', $client->id);
                 }
                 return $query;

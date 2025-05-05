@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,5 +34,7 @@ class AppServiceProvider extends ServiceProvider
         DatePicker::configureUsing(fn (DatePicker $datePicker) => $datePicker->inlineLabel());
         FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload->inlineLabel());
         RichEditor::configureUsing(fn (RichEditor $richEditor) => $richEditor->inlineLabel());
+
+        Model::preventSilentlyDiscardingAttributes();
     }
 }
