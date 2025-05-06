@@ -15,16 +15,16 @@
                 <flux:navbar.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
                     {{ __('Home') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="building-library" href="#about" :current="request()->routeIs('about')">
+                <flux:navbar.item icon="building-library" href="{{ route('about') }}" :current="request()->routeIs('about')" wire:navigate>
                     {{ __('About') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="rocket-launch" href="#features" :current="request()->routeIs('features')">
+                <flux:navbar.item icon="rocket-launch" href="{{ route('features') }}" :current="request()->routeIs('features')" wire:navigate>
                     {{ __('Features') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="document-text" href="#blog" :current="request()->routeIs('blog')">
-                    {{ __('Blog') }}
+                <flux:navbar.item icon="credit-card" href="{{ route('pricing') }}" :current="request()->routeIs('pricing')" wire:navigate>
+                    {{ __('Pricing') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="chat-bubble-left-right" href="#contact" :current="request()->routeIs('contact')">
+                <flux:navbar.item icon="chat-bubble-left-right" href="{{ route('contact') }}" :current="request()->routeIs('contact')" wire:navigate>
                     {{ __('Contact') }}
                 </flux:navbar.item>
                 @auth

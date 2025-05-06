@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::view('/', 'home')->name('home');
+Route::view('/pricing', 'pricing')->name('pricing');
+Route::view('/features', 'features')->name('features');
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
