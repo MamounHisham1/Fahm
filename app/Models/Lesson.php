@@ -44,4 +44,9 @@ class Lesson extends Model
     {
         return $this->belongsTo(Profile::class);
     }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

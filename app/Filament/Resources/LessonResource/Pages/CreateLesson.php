@@ -11,10 +11,10 @@ class CreateLesson extends CreateRecord
 {
     protected static string $resource = LessonResource::class;
 
-    public function mount(): void
-    {
-        if (app()->isLocal()) {
-            $this->form->fill(Lesson::factory()->make()->toArray());
-        }
-    }
+    // public function mount(): void
+    // {
+    //     if (app()->isLocal()) {
+    //         $this->form->fill(Lesson::factory()->make()->toArray());
+    //     }
+    // }
 }

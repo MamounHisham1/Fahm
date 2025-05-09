@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class SubjectResource extends Resource
 {
@@ -25,12 +26,11 @@ class SubjectResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required(),
-                Forms\Components\TextInput::make('slug')
-                    ->required(),
-                Forms\Components\TextInput::make('profile_id')
+                Forms\Components\Select::make('client_id')
+                    ->relationship('client', 'name')
                     ->required()
-                    ->numeric(),
-            ]);
+                    ->visible(Auth::user()->email == 'admin@admin.com'),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -41,6 +41,11 @@ class SubjectResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('client.name')
+                    ->visible(Auth::user()->email == 'admin@admin.com')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('profile.name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -49,10 +54,14 @@ class SubjectResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('profile_id')
-                    ->numeric()
-                    ->sortable(),
-            ])
+            ])->modifyQueryUsing(function (Builder $query): Builder {
+                $user = Auth::user();
+                $client = $user->client;
+                if ($user->email !== 'admin@admin.com') {
+                    return $query->where('client_id', $client->id);
+                }
+                return $query;
+            })
             ->filters([
                 //
             ])

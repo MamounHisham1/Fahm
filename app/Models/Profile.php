@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -16,6 +17,13 @@ class Profile extends Model
     use HasFactory, HasSlug;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public static function booted(): void
+    {
+        static::creating(function (Profile $profile) {
+            $profile->client_id = Auth::user()->client_id;
+        });
+    }
 
     public function getSlugOptions(): SlugOptions
     {
@@ -27,11 +35,6 @@ class Profile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function clients(): BelongsToMany
-    {
-        return $this->belongsToMany(Client::class, 'client_profile', 'profile_id', 'client_id')->withPivot('role');
     }
 
     public function client(): HasOne

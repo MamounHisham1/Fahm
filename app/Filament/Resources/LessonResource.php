@@ -8,6 +8,7 @@ use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Models\Client;
 use App\Models\Lesson;
 use App\Models\Subject;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,9 +30,13 @@ class LessonResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('user_id')
+                    ->label('Teacher')
+                    ->required()
+                    ->options(User::where('role', 'teacher')->where('client_id', Auth::user()->client_id)->pluck('name', 'id')),
                 Forms\Components\Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->required(),
+                    ->required()
+                    ->options(Subject::where('client_id', Auth::user()->client_id)->pluck('name', 'id')),
                 Forms\Components\Select::make('client_id')
                     ->relationship('client', 'name')
                     ->required()
@@ -72,8 +77,7 @@ class LessonResource extends Resource
             ])->modifyQueryUsing(function (Builder $query): Builder {
                 $user = Auth::user();
                 $client = $user->client;
-                dd($user);
-                if ($user->email != 'admin@admin.com') {
+                if ($user->email !== 'admin@admin.com') {
                     return $query->where('client_id', $client->id);
                 }
                 return $query;
