@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
+use App\Livewire\ClientInterface\Home;
+use App\Livewire\ClientInterface\Login;
+use App\Livewire\ClientInterface\Register;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -12,6 +14,10 @@ Route::view('/pricing', 'pricing')->name('pricing');
 Route::view('/features', 'features')->name('features');
 Route::view('/about', 'about')->name('about');
 Route::view('/contact', 'contact')->name('contact');
+
+Route::get('/clients/{client}', Home::class)->name('client.home');
+Route::get('/clients/{client}/login', Login::class)->name('client.login');
+Route::get('/clients/{client}/register', Register::class)->name('client.register');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
