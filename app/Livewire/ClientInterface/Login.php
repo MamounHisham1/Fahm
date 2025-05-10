@@ -7,8 +7,6 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Validation\ValidationException;
@@ -45,7 +43,7 @@ class Login extends Component
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-        $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        $this->redirectIntended(route('client.home', $this->client), navigate: true);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AuthenticationCheck;
 use App\Livewire\ClientInterface\Home;
 use App\Livewire\ClientInterface\Login;
 use App\Livewire\ClientInterface\Register;
@@ -15,7 +16,7 @@ Route::view('/features', 'features')->name('features');
 Route::view('/about', 'about')->name('about');
 Route::view('/contact', 'contact')->name('contact');
 
-Route::get('/clients/{client}', Home::class)->name('client.home');
+Route::get('/clients/{client}', Home::class)->name('client.home')->middleware(AuthenticationCheck::class);
 Route::get('/clients/{client}/login', Login::class)->name('client.login');
 Route::get('/clients/{client}/register', Register::class)->name('client.register');
 

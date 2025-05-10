@@ -20,19 +20,12 @@ class Register extends Component
     use WithFileUploads;
 
     public string $name = '';
-
     public string $email = '';
-
     public string $password = '';
-
     public string $password_confirmation = '';
-
     public string $school_name = '';
-
     public $logo;
-
     public string $description = '';
-
     public bool $terms = false;
 
     public function register(): void

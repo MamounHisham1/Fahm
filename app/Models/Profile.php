@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,9 +21,11 @@ class Profile extends Model
 
     public static function booted(): void
     {
-        static::creating(function (Profile $profile) {
-            $profile->client_id = Auth::user()->client_id;
-        });
+        if (Auth::check() && (Auth::user()->role === UserRole::Admin || Auth::user()->role === UserRole::Teacher)) {
+            static::creating(function (Profile $profile) {
+                $profile->client_id = Auth::user()->client_id;
+            });
+        }
     }
 
     public function getSlugOptions(): SlugOptions

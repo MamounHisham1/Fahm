@@ -49,7 +49,7 @@
                                     autofocus 
                                     autocomplete="name"
                                     placeholder="John Doe"
-                                    class="pl-10 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                             </div>
                             @error('name') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
@@ -72,7 +72,7 @@
                                     required 
                                     autocomplete="email"
                                     placeholder="you@example.com"
-                                    class="pl-10 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                             </div>
                             @error('email') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
@@ -93,8 +93,7 @@
                                     wire:model="password" 
                                     required 
                                     autocomplete="new-password"
-                                    placeholder="••••••••"
-                                    class="pl-10 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                             </div>
                             @error('password') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
@@ -112,13 +111,121 @@
                                 <input 
                                     id="password_confirmation"
                                     type="password" 
-                                    wire:model="password_confirmation" 
-                                    required 
+                                    wire:model="password_confirmation"
+                                    required
                                     autocomplete="new-password"
-                                    placeholder="••••••••"
-                                    class="pl-10 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                             </div>
+                        </div>
+                        
+                        <!-- Gender -->
+                        <div>
+                            <label for="gender" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <select 
+                                    id="gender"
+                                    wire:model="gender" 
+                                    required
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                >
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            @error('gender') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                    </svg>
+                                </div>
+                                <input 
+                                    id="phone"
+                                    type="tel" 
+                                    wire:model="phone" 
+                                    autocomplete="tel"
+                                    placeholder="+1 (555) 123-4567"
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                >
+                            </div>
+                            @error('phone') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <!-- Address -->
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input 
+                                    id="address"
+                                    type="text" 
+                                    wire:model="address" 
+                                    autocomplete="street-address"
+                                    placeholder="123 Main St, City, State"
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                >
+                            </div>
+                            @error('address') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <!-- Bio -->
+                        <div>
+                            <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
+                            <div class="relative">
+                                <div class="absolute top-3 left-3 flex items-start pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <textarea 
+                                    id="bio"
+                                    wire:model="bio" 
+                                    rows="4"
+                                    placeholder="Tell us a bit about yourself..."
+                                    class="pl-10 p-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                ></textarea>
+                            </div>
+                            @error('bio') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        <!-- Avatar Upload -->
+                        <div>
+                            <label for="avatar" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Profile Picture</label>
+                            <div class="mt-1 ">
+                                <div class="relative">
+                                    <input 
+                                        id="avatar" 
+                                        type="file" 
+                                        wire:model="avatar" 
+                                        accept="image/*"
+                                        class="sr-only"
+                                    >
+                                    <label for="avatar" class="cursor-pointer flex items-center justify-center w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                                        </svg>
+                                        Upload Photo
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">JPG, PNG or GIF. Max 2MB.</p>
+                            @error('avatar') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
                         </div>
                         
                         <!-- Terms and Conditions -->
@@ -158,7 +265,7 @@
                     <div class="mt-6 text-center">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             Already have an account? 
-                            <a href="{{ route('client.login', ['client' => request()->route('client')]) }}" wire:navigate class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                            <a href="{{ route('client.login', ['client' => $client]) }}" wire:navigate class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                                 Sign in
                             </a>
                         </p>
