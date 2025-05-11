@@ -29,7 +29,7 @@ class LessonFactory extends Factory
             'subject_id' => $subject->id,
             'client_id' => $client->id,
             'user_id' => $user->id,
-            'title' => fake()->title(),
+            'title' => fake()->words(3, true),
             'description' => fake()->text(),
             'status' => fake()->randomElement(LessonStatus::cases()),
         ];

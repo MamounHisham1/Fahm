@@ -2,6 +2,7 @@
 
 namespace App\Livewire\ClientInterface;
 
+use App\Models\Client;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,8 @@ use Livewire\Attributes\Layout;
 #[Layout('components.layouts.auth')]
 class Login extends Component
 {
+    public $client;
+
     #[Validate('required|string|email')]
     public string $email = '';
 
@@ -22,6 +25,11 @@ class Login extends Component
     public string $password = '';
 
     public bool $remember = false;
+
+    public function mount(Client $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * Handle an incoming authentication request.
