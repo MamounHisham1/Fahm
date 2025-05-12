@@ -24,8 +24,8 @@
                 <flux:navbar.item icon="home" :href="route('client.home', $client ?? '')" :current="request()->routeIs('client.home')" wire:navigate>
                     {{ __('Home') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="book-open" href="{{ route('client.lessons', $client ?? '') }}" :current="request()->routeIs('client.lessons')" wire:navigate>
-                    {{ __('Lessons') }}
+                <flux:navbar.item icon="book-open" href="{{ route('client.subjects', $client ?? '') }}" :current="request()->routeIs('client.subjects')" wire:navigate>
+                    {{ __('Subjects') }}
                 </flux:navbar.item>
                 <flux:navbar.item icon="clipboard-document-list" href="{{ route('client.assignments', $client ?? '') }}" :current="request()->routeIs('client.assignments')" wire:navigate>
                     {{ __('Assignments') }}

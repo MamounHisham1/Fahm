@@ -16,41 +16,30 @@ class Lesson extends Component
     use WithPagination;
 
     public $client;
+    public $subject;
     public $search = '';
-    public $subjectFilter = '';
-    public $statusFilter = '';
     public $selectedLesson = null;
 
-    public function mount(Client $client)
+    public function mount(Client $client, Subject $subject)
     {
         $this->client = $client;
+        $this->subject = $subject;
     }
 
     public function render()
     {
-        $subjects = Subject::where('client_id', $this->client->id)->get();
-        
-        $lessons = LessonModel::query()
-            ->where('client_id', $this->client->id)
+        $lessons = LessonModel::where('client_id', $this->client->id)
+            ->where('subject_id', $this->subject->id)
             ->where('status', LessonStatus::Completed)
             ->when($this->search, function ($query) {
-                return $query->where('title', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%');
+                return $query->where('title', 'like', '%' . $this->search . '%');
             })
-            ->when($this->subjectFilter, function ($query) {
-                return $query->where('subject_id', $this->subjectFilter);
-            })
-            ->when($this->statusFilter, function ($query) {
-                return $query->where('status', $this->statusFilter);
-            })
-            ->with(['subject', 'teacher'])
+            ->with(['teacher'])
             ->latest()
-            ->paginate(9);
+            ->get();
 
-        return view('livewire.client-interface.lesson', [
-            'lessons' => $lessons,
-            'subjects' => $subjects,
-        ])->layout('components.layouts.app.client-interface', ['client' => $this->client]);
+        return view('livewire.client-interface.lesson', ['lessons' => $lessons])
+            ->layout('components.layouts.app.client-interface', ['client' => $this->client]);
     }
 
     public function viewLesson($lessonId)
@@ -60,25 +49,9 @@ class Lesson extends Component
             ->findOrFail($lessonId);
     }
 
-    public function closeModal()
-    {
-        $this->selectedLesson = null;
-    }
-
-    public function markAsCompleted($lessonId)
-    {
-        $lesson = LessonModel::where('client_id', $this->client->id)
-            ->findOrFail($lessonId);
-            
-        $lesson->update(['status' => LessonStatus::Completed]);
-        $this->selectedLesson = $lesson->fresh(['subject', 'teacher']);
-    }
-
     public function resetFilters()
     {
         $this->search = '';
-        $this->subjectFilter = '';
-        $this->statusFilter = '';
         $this->resetPage();
     }
 }

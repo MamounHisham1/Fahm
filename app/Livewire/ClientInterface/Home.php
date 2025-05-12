@@ -18,7 +18,7 @@ class Home extends Component
     
     public function render()
     {
-        return view('livewire.client-interface.home')
+        return view('livewire.client-interface.home',)
             ->layout('components.layouts.app.client-interface', ['client' => $this->client]);
     }
 }
