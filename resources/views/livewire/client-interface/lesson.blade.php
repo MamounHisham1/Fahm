@@ -81,19 +81,21 @@
         <div class="lg:col-span-3">
             @if($selectedLesson)
                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <!-- Video Player Component -->
                     <div class="aspect-video bg-gray-900 w-full relative">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <!-- Placeholder for video - replace with actual video component when available -->
-                            <div class="text-center">
-                                <div class="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center mx-auto mb-4">
-                                    <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
-                                    </svg>
+                        @if($selectedLesson && $selectedLesson->public_id)
+                            <livewire:video-player :videoPublicId="$selectedLesson->public_id" />
+                        @else
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-white text-sm">{{ __('No video available for this lesson') }}</p>
                                 </div>
-                                <p class="text-white text-sm">{{ __('Video content will be available soon') }}</p>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     
                     <!-- Lesson Content -->

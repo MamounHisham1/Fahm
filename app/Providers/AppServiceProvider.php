@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Forms\Components\VideoUploader;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -34,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         DatePicker::configureUsing(fn (DatePicker $datePicker) => $datePicker->inlineLabel());
         FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload->inlineLabel());
         RichEditor::configureUsing(fn (RichEditor $richEditor) => $richEditor->inlineLabel());
+        VideoUploader::configureUsing(fn (VideoUploader $videoUploader) => $videoUploader->inlineLabel());
 
         Model::preventSilentlyDiscardingAttributes();
     }

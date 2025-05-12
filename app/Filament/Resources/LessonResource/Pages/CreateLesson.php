@@ -6,15 +6,23 @@ use App\Filament\Resources\LessonResource;
 use App\Models\Lesson;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\Auth;
 
 class CreateLesson extends CreateRecord
 {
     protected static string $resource = LessonResource::class;
 
-    // public function mount(): void
-    // {
-    //     if (app()->isLocal()) {
-    //         $this->form->fill(Lesson::factory()->make()->toArray());
-    //     }
-    // }
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['client_id'] = Auth::user()->client->id;
+
+        if (isset($data['video']) && is_array($data['video'])) {
+            $data['url'] = $data['video']['url'] ?? null;
+            $data['public_id'] = $data['video']['public_id'] ?? null;
+        }
+
+        unset($data['video']);
+
+        return $data;
+    }
 }

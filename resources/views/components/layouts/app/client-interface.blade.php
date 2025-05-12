@@ -183,5 +183,6 @@
         </footer>
 
         @fluxScripts
+        @stack('scripts')
     </body>
 </html>

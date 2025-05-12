@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\LessonStatus;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Filament\Resources\LessonResource\RelationManagers;
+use App\Forms\Components\VideoUploader;
 use App\Models\Client;
 use App\Models\Lesson;
 use App\Models\Subject;
@@ -44,6 +45,8 @@ class LessonResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->required(),
                 Forms\Components\RichEditor::make('description')
+                    ->required(),
+                VideoUploader::make('video')
                     ->required(),
                 Forms\Components\Select::make('status')
                     ->required()
