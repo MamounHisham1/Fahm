@@ -20,7 +20,7 @@ class Comment extends Component
     public function mount($lesson)
     {
         $this->lesson = $lesson;
-        $this->comments = $lesson->comments;
+        $this->comments = $lesson->comments()->where('parent_id', null)->with(['user', 'children.user', 'likes'])->get();
     }
 
     public function render()
@@ -41,7 +41,7 @@ class Comment extends Component
         ]);
 
         $this->comment = '';
-        $this->comments = $this->lesson->comments()->with(['user', 'children.user'])->get();
+        $this->comments = $this->lesson->comments()->where('parent_id', null)->with(['user', 'children.user', 'likes'])->get();
         
         $this->alerts['comment_added'] = [
             'type' => 'success',
@@ -88,7 +88,7 @@ class Comment extends Component
         ]);
 
         $this->replayText = '';
-        $this->comments = $this->lesson->comments()->with(['user', 'children.user'])->get();
+        $this->comments = $this->lesson->comments()->where('parent_id', null)->with(['user', 'children.user'])->get();
         $this->replyingTo = null;
         $this->replyingForm = false;
         
@@ -109,5 +109,19 @@ class Comment extends Component
         $this->replyingTo = null;
         $this->replyingForm = false;
         $this->replayText = '';
+    }
+
+    public function like($commentId)
+    {
+        $comment = CommentModel::findOrFail($commentId);
+        $userId = Auth::id();
+        
+        if ($comment->likes()->where('user_id', $userId)->exists()) {
+            $comment->likes()->detach($userId);
+        } else {
+            $comment->likes()->attach($userId);
+        }
+        
+        $this->comments = $this->lesson->comments()->where('parent_id', null)->with(['user', 'children.user', 'likes'])->get();
     }
 }
