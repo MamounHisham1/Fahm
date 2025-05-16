@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\UserRole;
 use App\Models\Admin;
 use App\Models\Client;
+use App\Models\Comment;
 use App\Models\Lesson;
 use App\Models\Profile;
 use App\Models\Subject;
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         Profile::factory(5000)->create();
         Subject::factory(100)->create();
         Lesson::factory(1000)->create();
+        Comment::factory(10000)->create();
     }
 }

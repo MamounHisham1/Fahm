@@ -84,6 +84,7 @@
                     <div class="aspect-video bg-gray-900 w-full relative">
                         @if($selectedLesson && $selectedLesson->public_id)
                             <livewire:video-player :videoPublicId="$selectedLesson->public_id" />
+                            <livewire:client-interface.comment :lesson="$selectedLesson" />
                         @else
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-center">

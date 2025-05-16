@@ -11,7 +11,6 @@ class VideoUploader extends Field
     protected function setUp(): void
     {
         parent::setUp();
-        
         $this->afterStateHydrated(function (VideoUploader $component, $state) {
             if (is_string($state)) {
                 $component->state(json_decode($state, true) ?? $state);

@@ -17,6 +17,7 @@ class Lesson extends Component
 
     public $client;
     public $subject;
+    
     public $search = '';
     public $selectedLesson = null;
 
