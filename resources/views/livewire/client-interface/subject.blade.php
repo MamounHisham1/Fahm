@@ -31,15 +31,15 @@
     <!-- Subjects Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($subjects as $subject)
-            <a 
-                href="{{ route('client.lessons', ['client' => $client, 'subject' => $subject]) }}" 
+            <a
+                href="{{ route('client.lessons.show', ['client' => $client, 'subject' => $subject, 'lesson' => $subject->lessons()->orderBy('created_at', 'asc')->first()]) }}" 
                 class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-200 transform hover:-translate-y-1 h-full flex flex-col"
             >
                 <div class="p-6 flex-grow flex flex-col">
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ $subject->name }}</h3>
                         <span class="text-sm px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300">
-                            {{ $subject->lessons()->where('status', 'completed')->count() }} {{ __('Lessons') }}
+                            {{ $subject->lessons()->count() }} {{ __('Lessons') }}
                         </span>
                     </div>
                     

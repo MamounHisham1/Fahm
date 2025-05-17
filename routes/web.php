@@ -28,7 +28,7 @@ Route::get('/clients/{client}/assignments', Assignment::class)->name('client.ass
 Route::get('/clients/{client}/lectures', Lecture::class)->name('client.lectures');
 Route::get('/clients/{client}/subjects', Subject::class)->name('client.subjects');
 Route::get('/clients/{client}/subjects/{subject}/lessons', Lesson::class)->name('client.lessons');
-Route::get('/clients/{client}/subjects/{subject}/lessons/{lesson}', Lesson::class)->name('client.lesson.show');
+Route::get('/clients/{client}/subjects/{subject}/lessons/{lesson}', Lesson::class)->name('client.lessons.show');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

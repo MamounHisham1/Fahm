@@ -44,12 +44,11 @@ class Lesson extends Component
     {
         $lessons = LessonModel::where('client_id', $this->client->id)
             ->where('subject_id', $this->subject->id)
-            ->where('status', LessonStatus::Completed)
             ->when($this->search, function ($query) {
                 return $query->where('title', 'like', '%' . $this->search . '%');
             })
             ->with(['teacher'])
-            ->latest()
+            ->orderBy('created_at', 'asc')
             ->paginate(30);
 
         return view('livewire.client-interface.lesson', ['lessons' => $lessons])

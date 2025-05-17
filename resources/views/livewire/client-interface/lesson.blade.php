@@ -37,7 +37,7 @@
                 <div class="space-y-2">
                     @forelse($lessons as $lesson)
                         <a 
-                            href="{{ route('client.lesson.show', ['client' => $client, 'subject' => $subject, 'lesson' => $lesson]) }}" 
+                            href="{{ route('client.lessons.show', ['client' => $client, 'subject' => $subject, 'lesson' => $lesson]) }}" 
                             wire:navigate
                             class="block w-full text-left px-3 py-2 rounded-lg transition-colors {{ $selectedLesson && $selectedLesson->id == $lesson->id ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300' }}"
                         >
@@ -45,7 +45,7 @@
                                 <div class="flex items-center justify-between">
                                     <span class="font-medium line-clamp-1">{{ $lesson->title }}</span>
                                     
-                                    @if(route('client.lesson.show', ['client' => $client, 'subject' => $subject, 'lesson' => $lesson]) == request()->url())
+                                    @if(route('client.lessons.show', ['client' => $client, 'subject' => $subject, 'lesson' => $lesson]) == request()->url())
                                         <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-300 font-medium">
                                             Current
                                         </span>
