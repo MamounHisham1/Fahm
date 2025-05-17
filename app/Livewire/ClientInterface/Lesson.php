@@ -17,14 +17,19 @@ class Lesson extends Component
 
     public $client;
     public $subject;
-    
     public $search = '';
     public $selectedLesson = null;
 
-    public function mount(Client $client, Subject $subject)
+    public function mount(Client $client, Subject $subject, LessonModel $lesson)
     {
         $this->client = $client;
         $this->subject = $subject;
+        
+        if($lesson->client_id !== $this->client->id) {
+            abort(404);
+        }
+
+        $this->selectedLesson = $lesson;
     }
 
     public function render()
@@ -41,13 +46,6 @@ class Lesson extends Component
 
         return view('livewire.client-interface.lesson', ['lessons' => $lessons])
             ->layout('components.layouts.app.client-interface', ['client' => $this->client]);
-    }
-
-    public function viewLesson($lessonId)
-    {
-        $this->selectedLesson = LessonModel::with(['subject', 'teacher'])
-            ->where('client_id', $this->client->id)
-            ->findOrFail($lessonId);
     }
 
     public function resetFilters()
