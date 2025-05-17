@@ -32,7 +32,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Lessons Sidebar -->
         <div class="lg:col-span-1">
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ __('Lessons') }}</h2>
                 <div class="space-y-2">
                     @forelse($lessons as $lesson)
@@ -44,13 +44,16 @@
                             <div class="flex flex-col">
                                 <div class="flex items-center justify-between">
                                     <span class="font-medium line-clamp-1">{{ $lesson->title }}</span>
-                                    <span class="text-xs px-2 py-1 rounded-full 
-                                        @if($lesson->status->value === 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300
-                                        @elseif($lesson->status->value === 'in_progress') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300
-                                        @elseif($lesson->status->value === 'completed') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300
-                                        @endif">
-                                        {{ $lesson->status->getLabel() }}
-                                    </span>
+                                    
+                                    @if(route('client.lesson.show', ['client' => $client, 'subject' => $subject, 'lesson' => $lesson]) == request()->url())
+                                        <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-300 font-medium">
+                                            Current
+                                        </span>
+                                    @elseif($lesson->views()->where('user_id', Auth::user()->id)->exists())
+                                        <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 font-medium">
+                                            Viewed
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="flex items-center justify-between mt-1 text-xs text-gray-500 dark:text-gray-400">
                                     <div class="flex items-center">
@@ -74,6 +77,13 @@
                         </div>
                     @endforelse
                 </div>
+                
+                <!-- Pagination -->
+                @if($lessons->hasPages())
+                    <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        {{ $lessons->links() }}
+                    </div>
+                @endif
             </div>
         </div>
 

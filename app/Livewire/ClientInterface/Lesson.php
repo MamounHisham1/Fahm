@@ -6,6 +6,7 @@ use App\Enums\LessonStatus;
 use App\Models\Client;
 use App\Models\Lesson as LessonModel;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -25,11 +26,18 @@ class Lesson extends Component
         $this->client = $client;
         $this->subject = $subject;
         
-        if($lesson->client_id !== $this->client->id) {
+        if ($lesson->client_id !== $this->client->id) {
             abort(404);
         }
-
+        
+        if(!$this->subject->lessons->contains($lesson)) {
+            abort(404);
+        }
         $this->selectedLesson = $lesson;
+
+        if(!Auth::user()->lessonsViewed()->where('lesson_id', $lesson->id)->exists()) {
+            Auth::user()->lessonsViewed()->attach($lesson);
+        }
     }
 
     public function render()
@@ -42,7 +50,7 @@ class Lesson extends Component
             })
             ->with(['teacher'])
             ->latest()
-            ->get();
+            ->paginate(30);
 
         return view('livewire.client-interface.lesson', ['lessons' => $lessons])
             ->layout('components.layouts.app.client-interface', ['client' => $this->client]);

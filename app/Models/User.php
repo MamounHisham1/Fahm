@@ -77,8 +77,13 @@ class User extends Authenticatable
         return $this->belongsTo(Client::class);
     }
 
-    public function likedComments(): BelongsToMany
+    public function commentsLiked(): BelongsToMany
     {
         return $this->belongsToMany(Comment::class, 'comment_likes');
+    }
+
+    public function lessonsViewed(): BelongsToMany
+    {
+        return $this->belongsToMany(Lesson::class, 'lesson_viewed');
     }
 }
