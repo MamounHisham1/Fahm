@@ -265,7 +265,7 @@
                     <div class="mt-6 text-center">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             Already have an account? 
-                            <a href="{{ route('client.login', ['client' => $client]) }}" wire:navigate class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
+                            <a href="{{ route('client.login') }}" wire:navigate class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
                                 Sign in
                             </a>
                         </p>

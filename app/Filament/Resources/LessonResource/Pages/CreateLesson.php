@@ -14,10 +14,12 @@ class CreateLesson extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['client_id'] = Auth::user()->client->id;
+        if(!isset($data['client_id'])) {
+            $data['client_id'] = Auth::user()->client->id;
+        }
 
         if (isset($data['video']) && is_array($data['video'])) {
-            $data['url'] = $data['video']['url'] ?? null;
+            $data['url'] = $data['url'] ?? $data['video']['url'] ?? null;
             $data['public_id'] = $data['video']['public_id'] ?? null;
         }
 

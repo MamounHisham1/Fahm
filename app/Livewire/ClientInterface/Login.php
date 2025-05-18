@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 
@@ -26,9 +27,9 @@ class Login extends Component
 
     public bool $remember = false;
 
-    public function mount(Client $client)
+    public function mount()
     {
-        $this->client = $client;
+        $this->client = Context::getHidden('client');
     }
 
     /**
@@ -40,7 +41,11 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        if (! Auth::attempt([
+            'email' => $this->email,
+            'password' => $this->password,
+            'client_id' => $this->client->id
+        ], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

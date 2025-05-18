@@ -17,7 +17,7 @@ class AuthenticationCheck
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('client.register', $request->route('client'));
+            return redirect()->route('client.register');
         }
         return $next($request);
     }

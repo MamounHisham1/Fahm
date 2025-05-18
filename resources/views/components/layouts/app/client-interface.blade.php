@@ -8,7 +8,7 @@
         <flux:header container sticky class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-            <a href="{{ route('client.home', $client ?? '') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0">
+            <a href="{{ route('client.home') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0">
                 @if(isset($client) && $client->logo)
                     <img src="{{ Storage::url($client->logo) }}" alt="{{ $client->name }}" class="h-8 w-auto object-contain">
                 @else
@@ -21,16 +21,16 @@
             </a>
 
             <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item icon="home" :href="route('client.home', $client ?? '')" :current="request()->routeIs('client.home')" wire:navigate>
+                <flux:navbar.item icon="home" :href="route('client.home')" :current="request()->routeIs('client.home')" wire:navigate>
                     {{ __('Home') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="book-open" href="{{ route('client.subjects', $client ?? '') }}" :current="request()->routeIs('client.subjects')" wire:navigate>
+                <flux:navbar.item icon="book-open" href="{{ route('client.subjects') }}" :current="request()->routeIs('client.subjects')" wire:navigate>
                     {{ __('Subjects') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="clipboard-document-list" href="{{ route('client.assignments', $client ?? '') }}" :current="request()->routeIs('client.assignments')" wire:navigate>
+                <flux:navbar.item icon="clipboard-document-list" href="{{ route('client.assignments') }}" :current="request()->routeIs('client.assignments')" wire:navigate>
                     {{ __('Assignments') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="chart-bar" href="{{ route('client.lectures', $client ?? '') }}" :current="request()->routeIs('client.lectures')" wire:navigate>
+                <flux:navbar.item icon="chart-bar" href="{{ route('client.lectures') }}" :current="request()->routeIs('client.lectures')" wire:navigate>
                     {{ __('Lectures') }}
                 </flux:navbar.item>
             </flux:navbar>
@@ -88,10 +88,10 @@
             </flux:dropdown>
             @else
             <div class="flex items-center space-x-4">
-                <a href="{{ route('client.login', $client ?? '') }}" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400" wire:navigate>
+                <a href="{{ route('client.login') }}" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400" wire:navigate>
                     {{ __('Log In') }}
                 </a>
-                <a href="{{ route('client.register', $client ?? '') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
+                <a href="{{ route('client.register') }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
                     {{ __('Register') }}
                 </a>
             </div>
@@ -102,7 +102,7 @@
         <flux:sidebar stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('client.home', $client ?? '') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse">
+            <a href="{{ route('client.home') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse">
                 @if(isset($client) && $client->logo)
                     <img src="{{ Storage::url($client->logo) }}" alt="{{ $client->name }}" class="h-8 w-auto object-contain">
                 @else
@@ -116,7 +116,7 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Navigation')">
-                    <flux:navlist.item icon="home" :href="route('client.home', $client ?? '')" :current="request()->routeIs('client.home')" wire:navigate>
+                    <flux:navlist.item icon="home" :href="route('client.home')" :current="request()->routeIs('client.home')" wire:navigate>
                         {{ __('Home') }}
                     </flux:navlist.item>
                     <flux:navlist.item icon="academic-cap" href="#courses" :current="request()->routeIs('client.courses')">
@@ -146,10 +146,10 @@
 
                 @guest
                 <flux:navlist.group :heading="__('Account')">
-                    <flux:navlist.item :href="route('client.login', $client ?? '')" wire:navigate>
+                    <flux:navlist.item :href="route('client.login')" wire:navigate>
                         {{ __('Log In') }}
                     </flux:navlist.item>
-                    <flux:navlist.item icon="user-plus" :href="route('client.register', $client ?? '')" wire:navigate>
+                    <flux:navlist.item icon="user-plus" :href="route('client.register')" wire:navigate>
                         {{ __('Register') }}
                     </flux:navlist.item>
                 </flux:navlist.group>

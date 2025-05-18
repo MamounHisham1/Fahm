@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Validation\Rule;
 
 #[Layout('components.layouts.auth')]
@@ -34,9 +35,9 @@ class Register extends Component
 
     public $client;
 
-    public function mount(Client $client)
+    public function mount()
     {
-        $this->client = $client;
+        $this->client = Context::getHidden('client');
     }
 
     public function register(): void

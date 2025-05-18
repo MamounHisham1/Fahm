@@ -4,7 +4,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-                    Welcome back, {{ auth()->user()->name }}!
+                    Welcome back, {{ auth()->user()?->name }}!
                 </h1>
                 <p class="mt-1 text-gray-600 dark:text-gray-300">
                     Here's an overview of your learning progress

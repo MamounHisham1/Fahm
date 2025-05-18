@@ -5,6 +5,7 @@ namespace App\Livewire\ClientInterface;
 use App\Models\Client;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
@@ -14,16 +15,15 @@ class Home extends Component
     public $client;
     public $viewedLessons;
     public $totalLessons;
-    public function mount(Client $client)
+    public function mount()
     {
-        $this->client = $client;
-        $this->viewedLessons = Auth::user()->lessonsViewed()->count();
-        $this->totalLessons = Lesson::where('client_id', $this->client->id)->count();
+        $this->client = Context::getHidden('client');
+        $this->viewedLessons = Auth::user()?->lessonsViewed()?->where('client_id', $this->client->id)->count() ?? 0;
+        $this->totalLessons = Lesson::count();
     }
     
     public function render()
     {
-        return view('livewire.client-interface.home',)
-            ->layout('components.layouts.app.client-interface', ['client' => $this->client]);
+        return view('livewire.client-interface.home');
     }
 }

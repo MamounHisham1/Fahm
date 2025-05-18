@@ -91,7 +91,7 @@
                                     autofocus 
                                     autocomplete="email"
                                     placeholder="you@example.com"
-                                    class="pl-10 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="pl-10 py-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                             </div>
                             @error('email') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
@@ -113,7 +113,7 @@
                                     required 
                                     autocomplete="current-password"
                                     placeholder="••••••••"
-                                    class="pl-10 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="pl-10 py-2 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-700/70 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                             </div>
                             @error('password') <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span> @enderror
@@ -168,7 +168,7 @@
                     <!-- Register Link -->
                     <div class="mt-6">
                         <a 
-                            href="{{ route('client.register', ['client' => request()->route('client')]) }}" 
+                            href="{{ route('client.register') }}" 
                             wire:navigate
                             class="w-full flex justify-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-150"
                         >

@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Lesson as LessonModel;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,9 +22,9 @@ class Lesson extends Component
     public $search = '';
     public $selectedLesson = null;
 
-    public function mount(Client $client, Subject $subject, LessonModel $lesson)
+    public function mount(Subject $subject, LessonModel $lesson)
     {
-        $this->client = $client;
+        $this->client = Context::getHidden('client');
         $this->subject = $subject;
         
         if ($lesson->client_id !== $this->client->id) {
@@ -51,8 +52,7 @@ class Lesson extends Component
             ->orderBy('created_at', 'asc')
             ->paginate(30);
 
-        return view('livewire.client-interface.lesson', ['lessons' => $lessons])
-            ->layout('components.layouts.app.client-interface', ['client' => $this->client]);
+        return view('livewire.client-interface.lesson', ['lessons' => $lessons]);
     }
 
     public function resetFilters()

@@ -4,6 +4,7 @@ namespace App\Livewire\ClientInterface;
 
 use App\Models\Client;
 use App\Models\Subject as SubjectModel;
+use Illuminate\Support\Facades\Context;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,9 +17,9 @@ class Subject extends Component
     public $client;
     public $search = '';
 
-    public function mount(Client $client)
+    public function mount()
     {
-        $this->client = $client;
+        $this->client = Context::getHidden('client');
     }
 
     public function render()

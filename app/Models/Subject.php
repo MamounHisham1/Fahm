@@ -14,7 +14,7 @@ class Subject extends Model
     /** @use HasFactory<\Database\Factories\SubjectFactory> */
     use HasFactory, HasSlug;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'slug', 'client_id'];
 
     public function getSlugOptions(): SlugOptions
     {

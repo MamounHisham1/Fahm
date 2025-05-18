@@ -3,6 +3,7 @@
 namespace App\Livewire\ClientInterface;
 
 use App\Models\Client;
+use Illuminate\Support\Facades\Context;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -18,9 +19,9 @@ class Lecture extends Component
     public $enableCamera = true;
     public $enableMicrophone = true;
 
-    public function mount(Client $client)
+    public function mount()
     {
-        $this->client = $client;
+        $this->client = Context::getHidden('client');
     }
 
     public function render()

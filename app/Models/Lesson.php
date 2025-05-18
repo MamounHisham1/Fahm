@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LessonStatus;
+use App\Traits\HasClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use Spatie\Sluggable\SlugOptions;
 class Lesson extends Model
 {
     /** @use HasFactory<\Database\Factories\LessonFactory> */
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug, HasClient;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -28,18 +29,13 @@ class Lesson extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('name')
+            ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
     }
 
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
-    }
-
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class);
     }
 
     public function profile(): BelongsTo

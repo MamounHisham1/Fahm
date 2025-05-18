@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\LessonStatus;
+use App\Enums\LessonType;
+use App\Enums\UserRole;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Forms\Components\VideoUploader;
@@ -12,6 +14,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -31,26 +34,44 @@ class LessonResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label('Teacher')
-                    ->required()
-                    ->options(User::where('role', 'teacher')->where('client_id', Auth::user()->client_id)->pluck('name', 'id')),
-                Forms\Components\Select::make('subject_id')
-                    ->required()
-                    ->options(Subject::where('client_id', Auth::user()->client_id)->pluck('name', 'id')),
                 Forms\Components\Select::make('client_id')
                     ->relationship('client', 'name')
                     ->required()
-                    ->visible(Auth::user()->email == 'admin@admin.com'),
+                    ->visible(Auth::user()->email == 'admin@admin.com')
+                    ->live(),
+                Forms\Components\Select::make('user_id')
+                    ->label('Teacher')
+                    ->required()
+                    ->options(function(Get $get) {
+                        if($get('client_id')) {
+                            return User::where('role', UserRole::Teacher)->where('client_id', $get('client_id'))->pluck('name', 'id');
+                        }
+                        return User::where('role', UserRole::Teacher)->where('client_id', Auth::user()->client_id)->pluck('name', 'id');
+                    }),
+                Forms\Components\Select::make('subject_id')
+                    ->required()
+                    ->options(function(Get $get) {
+                        if($get('client_id')) {
+                            return Subject::where('client_id', $get('client_id'))->pluck('name', 'id');
+                        }
+                        return Subject::where('client_id', Auth::user()->client_id)->pluck('name', 'id');
+                    }),
                 Forms\Components\TextInput::make('title')
                     ->required(),
                 Forms\Components\RichEditor::make('description')
                     ->required(),
-                VideoUploader::make('video')
-                    ->required(),
-                Forms\Components\Select::make('status')
+                Forms\Components\Select::make('type')
                     ->required()
-                    ->options(LessonStatus::class),
+                    ->options(LessonType::class)
+                    ->live(),
+                VideoUploader::make('video')
+                    ->visible(fn (Get $get) => $get('type') == LessonType::Video->value)
+                    ->required(),
+                Forms\Components\TextInput::make('url')
+                    ->visible(fn (Get $get) => $get('type') == LessonType::Youtube->value)
+                    ->required()
+                    ->label('Youtube URL')
+                    ->prefix('https://'),
             ])->columns(1);
     }
 

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\LessonStatus;
+use App\Enums\LessonType;
 use App\Enums\UserRole;
 use App\Models\Client;
 use App\Models\Profile;
@@ -31,7 +32,7 @@ class LessonFactory extends Factory
             'user_id' => $user->id,
             'title' => fake()->words(3, true),
             'description' => fake()->text(),
-            'status' => fake()->randomElement(LessonStatus::cases()),
+            'type' => fake()->randomElement(LessonType::cases()),
         ];
     }
 }

@@ -30,9 +30,9 @@
 
     <!-- Subjects Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @forelse($subjects as $subject)
+        @forelse($subjects as $subject)in
             <a
-                href="{{ route('client.lessons.show', ['client' => $client, 'subject' => $subject, 'lesson' => $subject->lessons()->orderBy('created_at', 'asc')->first()]) }}" 
+                href="{{ route('client.lessons.show', ['subject' => $subject, 'lesson' => $subject->lessons()->orderBy('created_at', 'asc')->first()]) }}" 
                 class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-200 transform hover:-translate-y-1 h-full flex flex-col"
             >
                 <div class="p-6 flex-grow flex flex-col">
