@@ -16,34 +16,25 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Context;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdminPanelProvider extends PanelProvider
+class FahmPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('dashboard')
-            ->path('dashboard')
-            ->middleware([
-                'bindDomain'
-            ])
-            ->domain(Context::getHidden('client')?->domain)
-            // ->darkMode()
-            ->sidebarWidth('200px')
-            ->login()
+            ->id('fahm')
+            ->path('fahm')
+            ->domain('app.fahm.test')
             ->colors([
-                'primary' => Color::Blue,
-                'gray' => Color::Stone,
+                'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Fahm/Resources'), for: 'App\\Filament\\Fahm\\Resources')
+            ->discoverPages(in: app_path('Filament/Fahm/Pages'), for: 'App\\Filament\\Fahm\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Fahm/Widgets'), for: 'App\\Filament\\Fahm\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,

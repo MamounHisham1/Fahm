@@ -63,9 +63,8 @@ class Register extends Component
         ]);
 
         DB::beginTransaction();
-
         if (isset($this->avatar)) {
-            $avatarPath = request()->file('avatar')->store('avatars', 'public');
+            $avatarPath = $this->avatar->store('avatars');
         }
 
         try {
@@ -95,7 +94,7 @@ class Register extends Component
             throw $e;
         }
 
-        $this->redirect(route('client.home', $this->client), navigate: true);
+        $this->redirect(route('client.home'), navigate: true);
     }
 
     public function render()

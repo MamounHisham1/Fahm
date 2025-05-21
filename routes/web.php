@@ -14,7 +14,7 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
 
-Route::domain('app.fahm.test')->group(function () {
+Route::domain('fahm.test')->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/pricing', 'pricing')->name('pricing');
     Route::view('/features', 'features')->name('features');

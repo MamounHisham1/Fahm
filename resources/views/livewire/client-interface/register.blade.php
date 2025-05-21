@@ -314,7 +314,7 @@
             <!-- Client logo if available -->
             @if(isset($client) && $client->logo)
                 <div class="flex justify-center mb-8">
-                    <img src="{{ Storage::url($client->logo) }}" alt="{{ $client->name }}" class="h-20 object-contain">
+                    <img src="{{ asset($client->logo) }}" alt="{{ $client->name }}" class="h-20 object-contain">
                 </div>
             @else
                 <div class="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-purple-700 dark:from-indigo-500 dark:to-purple-600 shadow-lg">

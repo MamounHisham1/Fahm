@@ -43,6 +43,8 @@
                         <div class="space-y-4">
                             <x-input name="school_name" label="School Name" required />
 
+                            <x-input name="domain" label="Domain" info="By default, the domain will be the school name. You can change it later." />
+
                             <x-file-uploader name="logo" label="School Logo" accept="image/*" maxSize="2"
                                 recommendedSize="200x200px" />
                             <x-textarea name="description" label="School Description" required />

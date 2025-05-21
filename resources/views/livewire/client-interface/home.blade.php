@@ -32,7 +32,7 @@
             </div>
             <h3 class="mt-4 text-sm font-medium text-gray-900 dark:text-white">Lessons Completed</h3>
             <div class="mt-2 h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-blue-600 rounded-full" style="width: {{ ($viewedLessons) / ($totalLessons) * 100 }}%"></div>
+                <div class="h-full bg-blue-600 rounded-full" style="width: {{ $totalLessons > 0 ? ($viewedLessons / $totalLessons) * 100 : 0 }}%"></div>
             </div>
         </div>
 
