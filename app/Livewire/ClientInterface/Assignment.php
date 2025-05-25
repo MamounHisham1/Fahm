@@ -19,6 +19,7 @@ class Assignment extends Component
     public $search = '';
     public $subjectFilter = '';
     public $statusFilter = '';
+    public $submission;
 
     public function mount()
     {
@@ -39,7 +40,21 @@ class Assignment extends Component
                 $query->where('subject_id', $this->subjectFilter);
             })
             ->when($this->statusFilter, function ($query) {
-                $query->where('status', $this->statusFilter);
+                if($this->statusFilter == 'submitted') {
+                    $query->whereHas('submissions', function ($query) {
+                        $query->where('user_id', Auth::id());
+                    });
+                }
+                if($this->statusFilter == 'graded') {
+                    $query->whereHas('submissions', function ($query) {
+                        $query->where('user_id', Auth::id())->whereHas('grades');
+                    });
+                }
+                if($this->statusFilter == 'pending') {
+                    $query->whereDoesntHave('submissions', function ($query) {
+                        $query->where('user_id', Auth::id());
+                    });
+                }
             })
             ->with(['subject', 'submissions.grades'])
             ->latest()

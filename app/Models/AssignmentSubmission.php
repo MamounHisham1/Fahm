@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AssignmentSubmission extends Model
 {
-    use HasFactory, HasClient;
+    use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $casts = [

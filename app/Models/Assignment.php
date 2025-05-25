@@ -37,9 +37,4 @@ class Assignment extends Model
     {
         return $this->hasMany(AssignmentSubmission::class);
     }
-
-    public function grades(): HasMany
-    {
-        return $this->hasMany(AssignmentGrade::class);
-    }
 }

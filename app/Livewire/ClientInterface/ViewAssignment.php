@@ -20,7 +20,7 @@ class ViewAssignment extends Component
     public $file;
     public $text;
     public $type = 'file';
-
+    public $alerts = [];
     public function mount(Assignment $assignment)
     {
         $this->client = Context::getHidden('client');
@@ -29,11 +29,8 @@ class ViewAssignment extends Component
             abort(404);
         }
 
-        $this->assignment = $assignment->load(['subject', 'submissions.grades']);
-        $this->submission = $this->assignment->submissions()
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->first();
+        $this->assignment = $assignment;
+        $this->submission = $this->assignment->submissions()->where('user_id', Auth::id())->first();
     }
 
     public function submitAssignment()
@@ -41,7 +38,7 @@ class ViewAssignment extends Component
         $this->validate([
             'type' => ['required', 'in:file,text'],
             'file' => ['required_if:type,file', 'nullable', 'file', 'max:10240'],
-            'text' => ['required_if:type,text', 'nullable', 'string', 'max:1000'],
+            'text' => ['required_if:type,text', 'nullable', 'string'],
         ]);
 
         $submission = [
@@ -64,7 +61,10 @@ class ViewAssignment extends Component
         $this->file = null;
         $this->text = null;
 
-        session()->flash('success', 'Assignment submitted successfully!');
+        $this->alerts[] = [
+            'type' => 'success',
+            'message' => 'Assignment submitted successfully!',
+        ];
     }
 
     public function render()
