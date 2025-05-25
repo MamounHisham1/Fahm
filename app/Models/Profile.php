@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Traits\HasClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,8 +15,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Profile extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProfileFactory> */
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug, HasClient;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -38,10 +38,5 @@ class Profile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function client(): HasOne
-    {
-        return $this->hasOne(Client::class)->ofMany();
     }
 }

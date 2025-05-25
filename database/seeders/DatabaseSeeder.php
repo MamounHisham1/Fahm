@@ -21,11 +21,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::factory(['name' => 'Admin', 'email' => 'admin@admin.com', 'password' => Hash::make('password')])->create();
-        Client::factory(10)->create();
-        Profile::factory(5000)->create();
-        Subject::factory(100)->create();
-        Lesson::factory(1000)->create();
-        Comment::factory(10000)->create();
+    //     Admin::factory(['name' => 'Admin', 'email' => 'admin@admin.com', 'password' => Hash::make('password')])->create();
+    //     Client::factory(10)->create();
+    //     Profile::factory(5000)->create();
+    //     Subject::factory(100)->create();
+    //     Lesson::factory(1000)->create();
+    //     Comment::factory(10000)->create();
+        
+        $this->call([
+            AssignmentSeeder::class,
+            AssignmentSubmissionSeeder::class,
+            AssignmentGradeSeeder::class,
+        ]);
     }
 }

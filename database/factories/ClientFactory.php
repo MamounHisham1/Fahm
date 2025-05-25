@@ -20,7 +20,7 @@ class ClientFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'domain' => fake()->domainName(),
+            'domain' => fake()->slug(),
             'logo' => fake()->imageUrl(),
             'description' => fake()->realText(),
         ];

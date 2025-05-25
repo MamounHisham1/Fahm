@@ -21,7 +21,7 @@ class CommentFactory extends Factory
     {
         return [
             'user_id' => User::where('role', 'student')->inRandomOrder()->first()->id,
-            'lesson_id' => Lesson::where('status', LessonStatus::Completed)->inRandomOrder()->first()->id,
+            'lesson_id' => Lesson::inRandomOrder()->first()->id,
             'parent_id' => null,
             'body' => fake()->realTextBetween(50, 300),
         ];

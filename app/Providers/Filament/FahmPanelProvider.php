@@ -25,9 +25,9 @@ class FahmPanelProvider extends PanelProvider
         return $panel
             ->id('fahm')
             ->path('fahm')
-            ->domain('app.fahm.test')
+            ->domain('fahm.test')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Purple,
             ])
             ->discoverResources(in: app_path('Filament/Fahm/Resources'), for: 'App\\Filament\\Fahm\\Resources')
             ->discoverPages(in: app_path('Filament/Fahm/Pages'), for: 'App\\Filament\\Fahm\\Pages')

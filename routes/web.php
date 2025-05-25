@@ -8,6 +8,7 @@ use App\Livewire\ClientInterface\Lesson;
 use App\Livewire\ClientInterface\Login;
 use App\Livewire\ClientInterface\Register;
 use App\Livewire\ClientInterface\Subject;
+use App\Livewire\ClientInterface\ViewAssignment;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -29,6 +30,7 @@ Route::middleware('bindDomain')->group(function () {
     Route::middleware(AuthenticationCheck::class)->group(function () {
         Route::get('/', Home::class)->name('client.home');
         Route::get('/assignments', Assignment::class)->name('client.assignments');
+        Route::get('/assignments/{assignment}', ViewAssignment::class)->name('client.assignments.show');
         Route::get('/lectures', Lecture::class)->name('client.lectures');
         Route::get('/subjects', Subject::class)->name('client.subjects');
         Route::get('/subjects/{subject}/lessons/{lesson}', Lesson::class)->name('client.lessons.show');

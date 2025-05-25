@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,8 +12,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Subject extends Model
 {
-    /** @use HasFactory<\Database\Factories\SubjectFactory> */
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug, HasClient;
 
     protected $fillable = ['name', 'slug', 'client_id'];
 
@@ -26,10 +26,5 @@ class Subject extends Model
     public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
-    }
-
-    public function client(): BelongsTo
-    {
-        return $this->belongsTo(Client::class);
     }
 }

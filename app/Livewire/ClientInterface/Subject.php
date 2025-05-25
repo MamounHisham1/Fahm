@@ -34,7 +34,7 @@ class Subject extends Component
 
         return view('livewire.client-interface.subject', [
             'subjects' => $subjects,
-        ])->layout('components.layouts.app.client-interface', ['client' => $this->client]);
+        ]);
     }
 
     public function resetFilters()
