@@ -37,7 +37,7 @@ class ViewAssignment extends Component
     {
         $this->validate([
             'type' => ['required', 'in:file,text'],
-            'file' => ['required_if:type,file', 'nullable', 'file', 'max:10240'],
+            'file' => ['required_if:type,file', 'nullable', 'file', 'mimes:pdf,doc,docx,txt,png,jpg,jpeg', 'max:10240'],
             'text' => ['required_if:type,text', 'nullable', 'string'],
         ]);
 
@@ -46,9 +46,9 @@ class ViewAssignment extends Component
             'type' => $this->type,
         ];
 
-        if ($this->type === 'file' && $this->file) {
+        if ($this->type === 'file') {
             $submission['file'] = $this->file->store('assignments');
-        } elseif ($this->type === 'text' && $this->text) {
+        } elseif ($this->type === 'text') {
             $submission['text'] = $this->text;
         }
 
