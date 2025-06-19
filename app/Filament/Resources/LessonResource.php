@@ -81,15 +81,18 @@ class LessonResource extends Resource
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
-                TextColumn::make('client.name')
-                    ->visible(Auth::user()->email == 'admin@admin.com')
-                    ->searchable(),
                 TextColumn::make('subject.name')
                     ->searchable(),
                 TextColumn::make('description')
+                    ->html()
                     ->limit(20)
                     ->searchable(),
-                IconColumn::make('status'),
+                IconColumn::make('type')
+                    ->icons([
+                        'heroicon-o-video-camera' => LessonType::Video->value,
+                        'heroicon-o-play' => LessonType::Youtube->value,
+                    ])
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

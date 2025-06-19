@@ -30,7 +30,7 @@ class Register extends Component
     public string $description = '';
     public bool $terms = false;
 
-    public function register(): void
+    public function register()
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -73,7 +73,10 @@ class Register extends Component
             throw $e;
         }
 
-        $this->redirect(route('filament.dashboard.pages.dashboard'), navigate: true);
+        // TODO: Enhance this to use the correct solution. the redirect url will this https://some-domain.fahm.test/admin/dashboard
+        $appDomain = env('APP_DOMAIN');
+        
+        return redirect()->away("https://{$client->domain}.{$appDomain}/dashboard");
     }
 
     public function render()

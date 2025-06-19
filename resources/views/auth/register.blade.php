@@ -19,9 +19,12 @@
 
                     {{-- Personal Information Section --}}
                     <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <h2 class="text-xl font-semibold tracking-wider text-gray-800 capitalize dark:text-white mb-4">
+                        <h2 class="text-xl font-semibold tracking-wider text-gray-800 capitalize dark:text-white">
                             Personal Information
                         </h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                            These informations will be used to login to the admin dashboard.
+                        </p>
 
                         <div class="space-y-4">
                             <x-input name="name" label="Name" required />

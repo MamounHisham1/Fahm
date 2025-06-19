@@ -13,10 +13,21 @@ class CreateTeacher extends CreateRecord
 {
     protected static string $resource = TeacherResource::class;
 
-    protected function mutateFormDataBeforeCreate(array $data): array
+    // protected function mutateFormDataBeforeCreate(array $data): array
+    // {
+    //     $data['password'] = Hash::make(Str::password(16, symbols: false));
+    //     $data['client_id'] = Auth::user()->client_id;
+    //     $data['role'] = 'teacher';
+    //     $data['profile'] = ['client_id' => Auth::user()->client_id];
+    //     // dd($data);
+    //     return $data;
+    // }
+
+    protected function beforeCreate()
     {
-        $data['password'] = Hash::make(Str::password(16, symbols: false));
-        $data['client_id'] = Auth::user()->client_id;
-        return $data;
+        $this->data['password'] = Hash::make(Str::password(16, symbols: false));
+        $this->data['client_id'] = Auth::user()->client_id;
+        $this->data['role'] = 'teacher';
+        $this->data['profile']['client_id'] = Auth::user()->client_id;
     }
 }

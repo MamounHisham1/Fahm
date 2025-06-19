@@ -9,13 +9,14 @@ use App\Livewire\ClientInterface\Login;
 use App\Livewire\ClientInterface\Register;
 use App\Livewire\ClientInterface\Subject;
 use App\Livewire\ClientInterface\ViewAssignment;
-use App\Livewire\Settings\Appearance;
+// use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
+$domain = str_replace('https://', '', env('APP_URL'));
 
-Route::domain('fahm.test')->group(function () {
+Route::domain($domain)->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/pricing', 'pricing')->name('pricing');
     Route::view('/features', 'features')->name('features');
@@ -42,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
-    Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+    // Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
 require __DIR__.'/auth.php';

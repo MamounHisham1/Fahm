@@ -59,6 +59,8 @@ class TeacherResource extends Resource
                         ->label('Profile Information')
                         ->schema([
                             Relationship::make('profile')->schema([
+                                // TextInput::make('client_id')
+                                //     ->default(Auth::user()->client_id),
                                 Select::make('gender')
                                     ->options([
                                         'male' => 'Male',
@@ -86,8 +88,11 @@ class TeacherResource extends Resource
                 TextColumn::make('email')
                     ->searchable(),
                 ImageColumn::make('profile.avatar')
-                    ->circular(),
+                    ->label('Avatar')
+                    ->circular()
+                    ->default('https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)),
                 TextColumn::make('profile.gender')
+                    ->label('Gender')
                     ->badge()
                     ->formatStateUsing(fn(string $state): string => ucfirst($state))
                     ->color(fn(string $state): string => match ($state) {
@@ -108,11 +113,7 @@ class TeacherResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])->modifyQueryUsing(function (Builder $query): Builder {
                 $user = Auth::user();
-                $client = $user->client;
-                if ($user->email !== 'admin@admin.com') {
-                    return $query->where('client_id', $client->id)->where('role', 'teacher');
-                }
-                return $query->where('role', 'teacher');
+                return $query->where('role', 'teacher')->where('client_id', $user->client_id);
             })
             ->filters([
                 //

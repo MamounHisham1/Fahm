@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" {{-- class="dark" --}}>
     <head>
         @include('partials.head')
     </head>
@@ -71,9 +71,9 @@
                         <flux:menu.item :href="route('settings.profile')" icon="user-circle" wire:navigate>
                             {{ __('Profile') }}
                         </flux:menu.item>
-                        <flux:menu.item :href="route('settings.appearance')" icon="paint-brush" wire:navigate>
-                            {{ __('Appearance') }}
-                        </flux:menu.item>
+                                            {{-- <flux:menu.item :href="route('settings.appearance')" icon="paint-brush" wire:navigate>
+                        {{ __('Appearance') }}
+                    </flux:menu.item> --}}
                     </flux:menu.radio.group>
 
                     <flux:menu.separator />
@@ -138,9 +138,9 @@
                     <flux:navlist.item icon="user-circle" :href="route('settings.profile')" :current="request()->routeIs('settings.profile')" wire:navigate>
                         {{ __('Profile') }}
                     </flux:navlist.item>
-                    <flux:navlist.item icon="cog-6-tooth" :href="route('settings.appearance')" :current="request()->routeIs('settings.appearance')" wire:navigate>
+                    {{-- <flux:navlist.item icon="cog-6-tooth" :href="route('settings.appearance')" :current="request()->routeIs('settings.appearance')" wire:navigate>
                         {{ __('Settings') }}
-                    </flux:navlist.item>
+                    </flux:navlist.item> --}}
                 </flux:navlist.group>
                 @endauth
 
