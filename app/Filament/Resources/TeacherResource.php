@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -34,6 +35,11 @@ class TeacherResource extends Resource
     protected static ?string $tenantOwnershipRelationship = 'teachers';
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+
+    public static function canEdit($record): bool
+    {
+        return $record->client_id === Auth::user()->client_id;
+    }
 
     public static function form(Form $form): Form
     {
@@ -59,8 +65,6 @@ class TeacherResource extends Resource
                         ->label('Profile Information')
                         ->schema([
                             Relationship::make('profile')->schema([
-                                // TextInput::make('client_id')
-                                //     ->default(Auth::user()->client_id),
                                 Select::make('gender')
                                     ->options([
                                         'male' => 'Male',
@@ -83,14 +87,14 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->searchable(),
                 ImageColumn::make('profile.avatar')
                     ->label('Avatar')
                     ->circular()
                     ->default('https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)),
+                TextColumn::make('name')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->searchable(),
                 TextColumn::make('profile.gender')
                     ->label('Gender')
                     ->badge()

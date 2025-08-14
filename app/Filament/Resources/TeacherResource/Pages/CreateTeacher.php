@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TeacherResource\Pages;
 
+use App\Enums\UserRole;
 use App\Filament\Resources\TeacherResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -13,21 +14,10 @@ class CreateTeacher extends CreateRecord
 {
     protected static string $resource = TeacherResource::class;
 
-    // protected function mutateFormDataBeforeCreate(array $data): array
-    // {
-    //     $data['password'] = Hash::make(Str::password(16, symbols: false));
-    //     $data['client_id'] = Auth::user()->client_id;
-    //     $data['role'] = 'teacher';
-    //     $data['profile'] = ['client_id' => Auth::user()->client_id];
-    //     // dd($data);
-    //     return $data;
-    // }
-
-    protected function beforeCreate()
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $this->data['password'] = Hash::make(Str::password(16, symbols: false));
-        $this->data['client_id'] = Auth::user()->client_id;
-        $this->data['role'] = 'teacher';
-        $this->data['profile']['client_id'] = Auth::user()->client_id;
+        $data['password'] = Hash::make(Str::password(16, symbols: false));
+        $data['role'] = UserRole::Teacher;
+        return $data;
     }
 }

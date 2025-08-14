@@ -102,12 +102,7 @@ class LessonResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])->modifyQueryUsing(function (Builder $query): Builder {
-                $user = Auth::user();
-                $client = $user->client;
-                if ($user->email !== 'admin@admin.com') {
-                    return $query->where('client_id', $client->id);
-                }
-                return $query;
+                return $query->where('client_id', request()->user()->client_id);
             })
             ->filters([
                 //
