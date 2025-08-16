@@ -12,7 +12,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -39,6 +41,13 @@ class AppServiceProvider extends ServiceProvider
         FileUpload::configureUsing(fn (FileUpload $fileUpload) => $fileUpload->inlineLabel());
         RichEditor::configureUsing(fn (RichEditor $richEditor) => $richEditor->inlineLabel());
         VideoUploader::configureUsing(fn (VideoUploader $videoUploader) => $videoUploader->inlineLabel());
+
+        
+        Table::macro('clientData', function () {
+            return $this->modifyQueryUsing(function (Builder $query) {
+                return $query->where('client_id', request()->user()->client_id);
+            });
+        }); 
 
         Model::preventSilentlyDiscardingAttributes();
     }

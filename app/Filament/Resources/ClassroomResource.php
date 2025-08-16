@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ClassroomResource\Pages;
 use App\Filament\Resources\ClassroomResource\RelationManagers;
 use App\Models\Classroom;
+use App\Models\Grade;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -23,11 +24,9 @@ class ClassroomResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
-                    ->required(),
                 Forms\Components\Select::make('grade_id')
-                    ->relationship('grade', 'name')
+                    ->label('Grade')
+                    ->options(Grade::where('client_id', request()->user()->client_id)->pluck('name', 'id'))
                     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
@@ -38,11 +37,8 @@ class ClassroomResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('grade.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -54,12 +50,11 @@ class ClassroomResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->clientData()
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -81,7 +76,7 @@ class ClassroomResource extends Resource
         return [
             'index' => Pages\ListClassrooms::route('/'),
             'create' => Pages\CreateClassroom::route('/create'),
-            'view' => Pages\ViewClassroom::route('/{record}'),
+            // 'view' => Pages\ViewClassroom::route('/{record}'),
             'edit' => Pages\EditClassroom::route('/{record}/edit'),
         ];
     }

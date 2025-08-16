@@ -34,27 +34,17 @@ class LessonResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
-                    ->required()
-                    ->visible(Auth::user()->email == 'admin@admin.com')
-                    ->live(),
                 Forms\Components\Select::make('user_id')
                     ->label('Teacher')
                     ->required()
-                    ->options(function(Get $get) {
-                        if($get('client_id')) {
-                            return User::where('role', UserRole::Teacher)->where('client_id', $get('client_id'))->pluck('name', 'id');
-                        }
-                        return User::where('role', UserRole::Teacher)->where('client_id', Auth::user()->client_id)->pluck('name', 'id');
+                    ->options(function() {
+                        return User::where('role', UserRole::Teacher)->where('client_id', request()->user()->client_id)->pluck('name', 'id');
                     }),
                 Forms\Components\Select::make('subject_id')
+                    ->label('Subject')
                     ->required()
-                    ->options(function(Get $get) {
-                        if($get('client_id')) {
-                            return Subject::where('client_id', $get('client_id'))->pluck('name', 'id');
-                        }
-                        return Subject::where('client_id', Auth::user()->client_id)->pluck('name', 'id');
+                    ->options(function() {
+                        return Subject::where('client_id', request()->user()->client_id)->pluck('name', 'id');
                     }),
                 Forms\Components\TextInput::make('title')
                     ->required(),
@@ -83,16 +73,10 @@ class LessonResource extends Resource
                     ->searchable(),
                 TextColumn::make('subject.name')
                     ->searchable(),
-                TextColumn::make('description')
-                    ->html()
-                    ->limit(20)
+                TextColumn::make('teacher.name')
                     ->searchable(),
-                IconColumn::make('type')
-                    ->icons([
-                        'heroicon-o-video-camera' => LessonType::Video->value,
-                        'heroicon-o-play' => LessonType::Youtube->value,
-                    ])
-                    ->searchable(),
+                TextColumn::make('type')
+                    ->formatStateUsing(fn(string $state): string => ucfirst($state)),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -101,9 +85,7 @@ class LessonResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])->modifyQueryUsing(function (Builder $query): Builder {
-                return $query->where('client_id', request()->user()->client_id);
-            })
+            ])->clientData()
             ->filters([
                 //
             ])

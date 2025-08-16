@@ -115,10 +115,7 @@ class TeacherResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])->modifyQueryUsing(function (Builder $query): Builder {
-                $user = Auth::user();
-                return $query->where('role', 'teacher')->where('client_id', $user->client_id);
-            })
+            ])->clientData()
             ->filters([
                 //
             ])

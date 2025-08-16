@@ -47,10 +47,7 @@ class SubjectResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])->modifyQueryUsing(function (Builder $query): Builder {
-                $user = Auth::user();
-                return $query->where('client_id', $user->client_id);
-            })
+            ])->clientData()
             ->filters([
                 //
             ])

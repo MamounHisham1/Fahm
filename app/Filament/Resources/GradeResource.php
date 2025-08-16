@@ -19,13 +19,15 @@ class GradeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
 
+    public static function canEdit($record): bool
+    {
+        return $record->client_id === request()->user()->client_id;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
             ]);
@@ -35,9 +37,6 @@ class GradeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -48,7 +47,7 @@ class GradeResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->clientData()
             ->filters([
                 //
             ])
@@ -75,7 +74,7 @@ class GradeResource extends Resource
         return [
             'index' => Pages\ListGrades::route('/'),
             'create' => Pages\CreateGrade::route('/create'),
-            'view' => Pages\ViewGrade::route('/{record}'),
+            // 'view' => Pages\ViewGrade::route('/{record}'),
             'edit' => Pages\EditGrade::route('/{record}/edit'),
         ];
     }

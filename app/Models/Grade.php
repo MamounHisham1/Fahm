@@ -14,6 +14,13 @@ class Grade extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected static function booted(): void
+    {
+        static::creating(function (Grade $grade) {
+            $grade->client_id = request()->user()->client_id;
+        });
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);

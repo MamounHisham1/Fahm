@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 
@@ -38,7 +37,7 @@ class User extends Authenticatable implements FilamentUser
     {
         static::creating(function (User $user) {
             if($user->role === UserRole::Teacher) {
-                $user->client_id = Auth::user()->client_id;
+                $user->client_id = request()->user()->client_id;
             }
         });
     }
