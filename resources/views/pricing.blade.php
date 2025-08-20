@@ -1,3 +1,10 @@
+@php
+    $user = auth()->user();
+    $hasProSubscription = $user && $user->subscribed() && $user->subscription()->stripe_price === 'price_1RxdiGP7efSykOFMYbp9pz7I';
+    $hasEnterpriseSubscription = $user && $user->subscribed() && $user->subscription()->stripe_price === 'price_1RxdkcP7efSykOFMRIs4x0We';
+    $isFreeUser = $user && !$user->subscribed();
+@endphp
+
 <x-layouts.app :title="__('Pricing')">
     <!-- Pricing Header Section -->
     <div class="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
@@ -16,7 +23,12 @@
     <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-3 gap-8">
             <!-- Free Tier -->
-            <div class="flex flex-col p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-lg">
+            <div class="flex flex-col p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-lg {{ $isFreeUser ? 'ring-2 ring-green-500 shadow-lg' : '' }} relative">
+                @if($isFreeUser)
+                    <div class="absolute top-0 right-0 bg-green-500 text-white font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
+                        CURRENT PLAN
+                    </div>
+                @endif
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Free</h3>
                     <p class="mt-2 text-gray-500 dark:text-gray-400">Perfect for getting started</p>
@@ -51,16 +63,31 @@
                         <span class="text-gray-600 dark:text-gray-300">Community support</span>
                     </li>
                 </ul>
-                <a href="{{ route('register') }}" class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-base font-semibold rounded-full text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
-                    Get started
-                </a>
+                @if($isFreeUser)
+                    <div class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-green-500 text-base font-semibold rounded-full text-green-700 bg-green-50 dark:bg-green-900/20 dark:text-green-300 cursor-default">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Current Plan
+                    </div>
+                @else
+                    <a href="{{ route('register') }}" class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-base font-semibold rounded-full text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
+                        Get started
+                    </a>
+                @endif
             </div>
 
             <!-- Pro Tier -->
-            <div class="flex flex-col p-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-2xl shadow-xl border border-blue-400 dark:border-purple-500 transform transition-all duration-200 hover:scale-105 relative">
-                <div class="absolute top-0 right-0 bg-yellow-400 text-gray-900 font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
-                    POPULAR
-                </div>
+            <div class="flex flex-col p-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-2xl shadow-xl border border-blue-400 dark:border-purple-500 transform transition-all duration-200 hover:scale-105 relative {{ $hasProSubscription ? 'ring-4 ring-green-400' : '' }}">
+                @if($hasProSubscription)
+                    <div class="absolute top-0 right-0 bg-green-500 text-white font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
+                        CURRENT PLAN
+                    </div>
+                @else
+                    <div class="absolute top-0 right-0 bg-yellow-400 text-gray-900 font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
+                        POPULAR
+                    </div>
+                @endif
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-white">Pro</h3>
                     <p class="mt-2 text-blue-100">For growing schools</p>
@@ -101,13 +128,27 @@
                         <span class="text-white">Custom branding</span>
                     </li>
                 </ul>
-                <a href="{{ route('register') }}" class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-white text-base font-semibold rounded-full text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
-                    Start free trial
-                </a>
+                @if($hasProSubscription)
+                    <div class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-green-400 text-base font-semibold rounded-full text-green-400 bg-white/10 cursor-default">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Current Plan
+                    </div>
+                @else
+                    <a href="{{ route('checkout', ['product' => 'prod_StQZW1xtmLhfIH', 'plan' => 'price_1RxdiGP7efSykOFMYbp9pz7I']) }}" class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-white text-base font-semibold rounded-full text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
+                        Start free trial
+                    </a>
+                @endif
             </div>
 
             <!-- Enterprise Tier -->
-            <div class="flex flex-col p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-lg">
+            <div class="flex flex-col p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-lg {{ $hasEnterpriseSubscription ? 'ring-2 ring-green-500 shadow-lg' : '' }} relative">
+                @if($hasEnterpriseSubscription)
+                    <div class="absolute top-0 right-0 bg-green-500 text-white font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
+                        CURRENT PLAN
+                    </div>
+                @endif
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Enterprise</h3>
                     <p class="mt-2 text-gray-500 dark:text-gray-400">For large institutions</p>
@@ -154,9 +195,18 @@
                         <span class="text-gray-600 dark:text-gray-300">SSO integration</span>
                     </li>
                 </ul>
-                <a href="#" class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Contact sales
-                </a>
+                @if($hasEnterpriseSubscription)
+                    <div class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-green-500 text-base font-semibold rounded-full text-green-700 bg-green-50 dark:bg-green-900/20 dark:text-green-300 cursor-default">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Current Plan
+                    </div>
+                @else
+                    <a href="{{ route('checkout', ['product' => 'prod_StQb8sdDEmJM48', 'plan' => 'price_1RxdkcP7efSykOFMRIs4x0We']) }}" class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Contact sales
+                    </a>
+                @endif
             </div>
         </div>
     </div>
@@ -170,9 +220,24 @@
                 <thead>
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Feature</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Free</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-blue-600 dark:text-blue-400 uppercase tracking-wider">Pro</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Enterprise</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium {{ $isFreeUser ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }} uppercase tracking-wider">
+                            Free
+                            @if($isFreeUser)
+                                <span class="block text-xs normal-case font-normal">(Current)</span>
+                            @endif
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium {{ $hasProSubscription ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400' }} uppercase tracking-wider">
+                            Pro
+                            @if($hasProSubscription)
+                                <span class="block text-xs normal-case font-normal">(Current)</span>
+                            @endif
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium {{ $hasEnterpriseSubscription ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }} uppercase tracking-wider">
+                            Enterprise
+                            @if($hasEnterpriseSubscription)
+                                <span class="block text-xs normal-case font-normal">(Current)</span>
+                            @endif
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
