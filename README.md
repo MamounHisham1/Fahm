@@ -1,10 +1,11 @@
 # Fahm - Educational Management Platform
 
-[![Laravel](https://img.shields.io/badge/Laravel-12.0-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
-[![Livewire](https://img.shields.io/badge/Livewire-v3-4E56A6?style=for-the-badge&logo=livewire&logoColor=white)](https://livewire.laravel.com)
-[![Filament](https://img.shields.io/badge/Filament-v3.3-FFAA00?style=for-the-badge&logo=filament&logoColor=white)](https://filamentphp.com)
-[![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Laravel](https://img.shields.io/badge/Laravel-12.20-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![Livewire](https://img.shields.io/badge/Livewire-3.6-4E56A6?style=for-the-badge&logo=livewire&logoColor=white)](https://livewire.laravel.com)
+[![Filament](https://img.shields.io/badge/Filament-3.3.32-FFAA00?style=for-the-badge&logo=filament&logoColor=white)](https://filamentphp.com)
+[![PHP](https://img.shields.io/badge/PHP-8.3%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.0.7-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Flux UI](https://img.shields.io/badge/Flux_UI-2.2.3-0EA5E9?style=for-the-badge&logo=livewire&logoColor=white)](https://fluxui.dev)
 
 A modern, multi-tenant educational management platform that connects educators with students through interactive learning experiences. Built with Laravel, Livewire, and Filament for powerful admin capabilities.
 
@@ -35,25 +36,35 @@ A modern, multi-tenant educational management platform that connects educators w
 - **Dark Mode Support** - Toggle between light and dark themes
 - **Real-time Interactions** - Powered by Livewire for seamless user experience
 - **Video Player Integration** - Custom video player for educational content
+- **Modern UI Components** - Flux UI design system for elegant interfaces
+
+### 💳 **Payment & Subscription Features**
+- **Subscription Management** - Laravel Cashier integration with Stripe
+- **Multi-tier Pricing** - Flexible subscription plans for different institution sizes
+- **Secure Checkout** - Integrated payment processing with subscription handling
+- **Billing Dashboard** - Comprehensive subscription and billing management
 
 ## 🚀 Tech Stack
 
-- **Backend**: Laravel 12.0 with PHP 8.2+
-- **Frontend**: Livewire 3.0 + TailwindCSS 4.0
-- **Admin Panel**: Filament 3.3
-- **Database**: MySQL/PostgreSQL compatible
+- **Backend**: Laravel 12.20 with PHP 8.3+
+- **Frontend**: Livewire 3.6 + TailwindCSS 4.0.7 + Flux UI 2.2.3
+- **Admin Panel**: Filament 3.3.32
+- **Database**: MySQL/PostgreSQL/SQLite compatible
+- **Payments**: Laravel Cashier 15.7+ with Stripe integration
 - **File Storage**: Cloudinary for video and media management
 - **Build Tools**: Vite for asset compilation
+- **Code Quality**: Laravel Pint 1.24 for formatting
 - **Testing**: PHPUnit with comprehensive test suite
 
 ## 📦 Installation
 
 ### Prerequisites
-- PHP 8.2 or higher
+- PHP 8.3 or higher
 - Composer
 - Node.js & npm
-- MySQL or PostgreSQL database
+- MySQL, PostgreSQL, or SQLite database
 - Cloudinary account (for video uploads)
+- Stripe account (for payment processing)
 
 ### Setup Instructions
 
@@ -93,6 +104,11 @@ A modern, multi-tenant educational management platform that connects educators w
    
    # Cloudinary Configuration
    CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name
+   
+   # Stripe Configuration (for payments)
+   STRIPE_KEY=pk_test_your_stripe_key
+   STRIPE_SECRET=sk_test_your_stripe_secret
+   STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
    ```
 
 6. **Database setup**
@@ -146,12 +162,14 @@ php artisan ide-helper:generate
 
 ### Models & Relationships
 - **Client**: Multi-tenant entity representing educational institutions
-- **User**: Students, Teachers, and Admins with role-based access
+- **User**: Students, Teachers, and Admins with role-based access (includes Stripe customer integration)
 - **Subject**: Academic subjects within each client
 - **Lesson**: Individual lessons with video content and materials
-- **Assignment**: Tasks assigned to students with due dates
+- **Assignment**: Tasks assigned to students with due dates and submissions
 - **Grade**: Academic grade levels
 - **Classroom**: Physical or virtual classrooms
+- **Comment**: Interactive discussions on lessons and assignments
+- **Profile**: Extended user information and preferences
 
 ### Key Design Patterns
 - **Multi-tenancy**: Client-based data isolation
@@ -170,6 +188,7 @@ The application provides a web-based interface with the following key routes:
 - `/features` - Feature overview
 - `/about` - About page
 - `/contact` - Contact information
+- `/checkout/{product}/{plan}` - Subscription checkout
 
 ### Client Interface (Multi-tenant)
 - `/{client}.domain.com/` - Client dashboard
@@ -180,6 +199,11 @@ The application provides a web-based interface with the following key routes:
 ### Admin Panels
 - `/admin` - Super admin panel (Filament)
 - `/{client}.domain.com/admin` - Client admin panel
+
+### Payment & Subscription Routes
+- Subscription management integrated with user dashboard
+- Stripe webhook handling for payment updates
+- Billing dashboard for subscription overview
 
 ## 🧪 Testing
 
@@ -228,8 +252,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Laravel](https://laravel.com) - The PHP framework for web artisans
 - [Livewire](https://livewire.laravel.com) - Full-stack framework for Laravel
 - [Filament](https://filamentphp.com) - Admin panel and form builder
+- [Flux UI](https://fluxui.dev) - Modern UI components for Livewire
 - [TailwindCSS](https://tailwindcss.com) - Utility-first CSS framework
+- [Laravel Cashier](https://laravel.com/docs/billing) - Subscription billing integration
 - [Cloudinary](https://cloudinary.com) - Cloud-based media management
+- [Stripe](https://stripe.com) - Payment processing platform
 
 ## 📞 Support
 
