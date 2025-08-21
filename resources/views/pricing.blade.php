@@ -1,8 +1,15 @@
 @php
     $user = auth()->user();
-    $hasProSubscription = $user && $user->subscribed() && $user->subscription()->stripe_price === 'price_1RxdiGP7efSykOFMYbp9pz7I';
-    $hasEnterpriseSubscription = $user && $user->subscribed() && $user->subscription()->stripe_price === 'price_1RxdkcP7efSykOFMRIs4x0We';
-    $isFreeUser = $user && !$user->subscribed();
+    
+    // Get the user's current active subscription (most recent one)
+    $currentSubscription = $user ? $user->subscriptions()
+        ->whereIn('stripe_status', ['active', 'trialing'])
+        ->orderBy('created_at', 'desc')
+        ->first() : null;
+    
+    $hasProSubscription = $currentSubscription && $currentSubscription->stripe_price === 'price_1RxdiGP7efSykOFMYbp9pz7I';
+    $hasEnterpriseSubscription = $currentSubscription && $currentSubscription->stripe_price === 'price_1RxdkcP7efSykOFMRIs4x0We';
+    $isFreeUser = $user && !$currentSubscription;
 @endphp
 
 <x-layouts.app :title="__('Pricing')">
@@ -78,14 +85,14 @@
             </div>
 
             <!-- Pro Tier -->
-            <div class="flex flex-col p-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-2xl shadow-xl border border-blue-400 dark:border-purple-500 transform transition-all duration-200 hover:scale-105 relative {{ $hasProSubscription ? 'ring-4 ring-green-400' : '' }}">
+            <div class="flex flex-col p-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-2xl shadow-xl border-2 border-blue-400 dark:border-purple-500 transform transition-all duration-200 hover:scale-105 relative {{ $hasProSubscription ? 'ring-4 ring-green-400' : 'ring-2 ring-blue-300' }}">
                 @if($hasProSubscription)
                     <div class="absolute top-0 right-0 bg-green-500 text-white font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
                         CURRENT PLAN
                     </div>
                 @else
-                    <div class="absolute top-0 right-0 bg-yellow-400 text-gray-900 font-semibold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm">
-                        POPULAR
+                    <div class="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 font-bold px-4 py-1 rounded-bl-lg rounded-tr-xl text-sm shadow-lg">
+                        ⭐ MOST POPULAR
                     </div>
                 @endif
                 <div class="mb-6">
@@ -136,8 +143,12 @@
                         Current Plan
                     </div>
                 @else
-                    <a href="{{ route('checkout', ['product' => 'prod_StQZW1xtmLhfIH', 'plan' => 'price_1RxdiGP7efSykOFMYbp9pz7I']) }}" class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-white text-base font-semibold rounded-full text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" wire:navigate>
-                        Start free trial
+                    <a href="{{ route('checkout', ['product' => 'prod_StQZW1xtmLhfIH', 'plan' => 'price_1RxdiGP7efSykOFMYbp9pz7I']) }}" class="w-full inline-flex justify-center items-center px-6 py-3 border-2 border-white text-base font-semibold rounded-full text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200" wire:navigate>
+                        @if($user && $currentSubscription)
+                            Upgrade to Pro
+                        @else
+                            Choose Pro Plan
+                        @endif
                     </a>
                 @endif
             </div>
@@ -203,8 +214,12 @@
                         Current Plan
                     </div>
                 @else
-                    <a href="{{ route('checkout', ['product' => 'prod_StQb8sdDEmJM48', 'plan' => 'price_1RxdkcP7efSykOFMRIs4x0We']) }}" class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Contact sales
+                    <a href="{{ route('checkout', ['product' => 'prod_StQb8sdDEmJM48', 'plan' => 'price_1RxdkcP7efSykOFMRIs4x0We']) }}" class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-semibold rounded-full shadow-sm text-white bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
+                        @if($user && $currentSubscription)
+                            Upgrade to Enterprise
+                        @else
+                            Choose Enterprise Plan
+                        @endif
                     </a>
                 @endif
             </div>

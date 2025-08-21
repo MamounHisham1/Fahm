@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Middleware\AuthenticationCheck;
 use App\Livewire\ClientInterface\Assignment;
 use App\Livewire\ClientInterface\Home;
@@ -22,14 +23,9 @@ Route::domain($domain)->group(function () {
     Route::view('/features', 'features')->name('features');
     Route::view('/about', 'about')->name('about');
     Route::view('/contact', 'contact')->name('contact');
-    Route::get('/checkout/{product}/{plan}', function($product, $plan) {
-        return request()->user()
-            ->newSubscription($product, $plan)
-            ->checkout([
-                'success_url' => route('home'),
-                'cancel_url' => route('pricing'),
-            ]);
-    })->name('checkout');
+    Route::get('/checkout/{product}/{plan}', [CheckoutController::class, 'checkout'])
+        ->middleware('auth')
+        ->name('checkout');
 });
 
 Route::middleware('bindDomain')->group(function () {
