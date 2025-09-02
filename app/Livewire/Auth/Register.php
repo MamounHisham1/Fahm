@@ -74,7 +74,7 @@ class Register extends Component
         }
 
         // TODO: Enhance this to use the correct solution. the redirect url will this https://some-domain.fahm.test/admin/dashboard
-        $appDomain = env('APP_DOMAIN');
+        $appDomain = config('fahm.app_domain');
         
         return redirect()->away("https://{$client->domain}.{$appDomain}/dashboard");
     }
