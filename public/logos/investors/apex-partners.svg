@@ -1,0 +1,26 @@
+<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="apexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Logo Symbol -->
+  <g transform="translate(15, 15)">
+    <!-- Mountain/Apex shape -->
+    <polygon points="25,10 35,30 15,30" fill="url(#apexGradient)" opacity="0.9"/>
+    <polygon points="25,10 30,5 40,25 35,30" fill="url(#apexGradient)" opacity="0.7"/>
+    <polygon points="15,30 10,25 20,5 25,10" fill="url(#apexGradient)" opacity="0.8"/>
+    
+    <!-- Peak highlight -->
+    <polygon points="25,10 30,5 25,8" fill="white" opacity="0.8"/>
+    
+    <!-- Base line -->
+    <line x1="8" y1="32" x2="42" y2="32" stroke="url(#apexGradient)" stroke-width="3" opacity="0.6"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="70" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1F2937">APEX</text>
+  <text x="70" y="52" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#6B7280">PARTNERS</text>
+</svg>

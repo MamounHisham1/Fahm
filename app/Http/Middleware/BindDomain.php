@@ -18,7 +18,7 @@ class BindDomain
     public function handle(Request $request, Closure $next): Response
     {
         $domainParts = explode('.', request()->getHost());
-        if (count($domainParts) < 4) {
+        if (count($domainParts) < 3) {
             abort(404);
         }
         

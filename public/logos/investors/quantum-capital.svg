@@ -1,0 +1,24 @@
+<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="quantumGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0D9488;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Logo Symbol -->
+  <g transform="translate(15, 20)">
+    <!-- Quantum-inspired geometric shape -->
+    <polygon points="20,5 35,15 30,30 15,30 10,15" fill="url(#quantumGradient)" opacity="0.8"/>
+    <polygon points="20,5 25,0 40,10 35,15" fill="url(#quantumGradient)" opacity="0.6"/>
+    <polygon points="35,15 40,10 40,25 30,30" fill="url(#quantumGradient)" opacity="0.9"/>
+    
+    <!-- Inner geometric details -->
+    <circle cx="22" cy="18" r="3" fill="white" opacity="0.8"/>
+    <circle cx="28" cy="22" r="2" fill="white" opacity="0.6"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="70" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1F2937">QUANTUM</text>
+  <text x="70" y="52" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#6B7280">CAPITAL</text>
+</svg>

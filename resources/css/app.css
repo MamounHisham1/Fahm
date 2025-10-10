@@ -64,3 +64,29 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Force navigation links to be visible in light mode */
+[data-flux-navbar-item] {
+    color: #374151 !important; /* gray-700 */
+}
+
+[data-flux-navbar-item]:hover {
+    color: #2563eb !important; /* blue-600 */
+}
+
+[data-flux-navbar-item][data-current="true"] {
+    color: #2563eb !important; /* blue-600 for active state */
+}
+
+/* Ensure navlist items are also visible */
+[data-flux-navlist-item] {
+    color: #374151 !important; /* gray-700 */
+}
+
+[data-flux-navlist-item]:hover {
+    color: #2563eb !important; /* blue-600 */
+}
+
+[data-flux-navlist-item][data-current="true"] {
+    color: #2563eb !important; /* blue-600 for active state */
+}

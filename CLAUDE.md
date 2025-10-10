@@ -1,6 +1,218 @@
----
-alwaysApply: true
----
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+Fahm is a multi-tenant educational management platform built with Laravel 12, Livewire 3, Filament 3, and Flux UI. The platform enables educational institutions to manage subjects, lessons, assignments, and student progress. Each institution operates as an isolated tenant with subdomain-based routing.
+
+## Tech Stack
+
+- **Backend**: Laravel 12.20, PHP 8.3+
+- **Frontend**: Livewire 3.6, Volt (functional/class-based), Flux UI 2.2.3, TailwindCSS 4.0.7
+- **Admin Panel**: Filament 3.3.32 (dual-panel: super admin + client admin)
+- **Payments**: Laravel Cashier 15.7+ with Stripe
+- **Media**: Cloudinary for video/image storage
+- **Testing**: PHPUnit (feature & unit tests)
+- **Code Quality**: Laravel Pint 1.24
+
+## Development Commands
+
+### Running the Development Environment
+```bash
+# Start all services (Laravel server, queue, logs, Vite)
+composer run dev
+
+# Individual services
+php artisan serve              # Development server
+php artisan queue:listen       # Queue worker
+php artisan pail              # Log monitoring
+npm run dev                   # Vite dev server
+npm run build                 # Production build
+```
+
+### Code Quality & Testing
+```bash
+# Format code (MUST run before commits)
+./vendor/bin/pint --dirty
+
+# Run tests
+php artisan test                           # All tests
+php artisan test --filter=TestName        # Specific test
+php artisan test --testsuite=Feature      # Feature tests only
+
+# Clear caches
+php artisan optimize:clear
+```
+
+### File Generation
+Always use Artisan commands with `--no-interaction` flag:
+```bash
+php artisan make:model ModelName --factory --migration --seed
+php artisan make:livewire ComponentName
+php artisan make:volt ComponentName
+php artisan filament:resource ResourceName
+```
+
+## Architecture
+
+### Multi-Tenancy Implementation
+- **Subdomain routing**: `{client}.domain.com` routes to client-specific interface
+- **BindDomain middleware** (app/Http/Middleware/BindDomain.php): Resolves client from subdomain, stores in Context
+- **Client model**: Central tenant entity with relationships to users, subjects, and data
+- **Main domain routes**: Landing page, pricing, features, about, contact, checkout at `domain.com`
+- **Client routes**: Dashboard, assignments, lectures, subjects under client subdomain
+
+### Directory Structure
+```
+app/
+├── Enums/           # Application enums (UserRole, etc.)
+├── Filament/        # Admin panel resources and pages
+│   ├── Fahm/       # Client admin panel (subdomain)
+│   ├── Pages/      # Custom admin pages
+│   └── Resources/  # Super admin CRUD resources
+├── Http/
+│   ├── Controllers/     # Standard controllers
+│   └── Middleware/      # Custom middleware (BindDomain, AuthenticationCheck)
+├── Livewire/       # Livewire components
+│   ├── ClientInterface/  # Client-facing components
+│   └── Settings/        # User settings components
+├── Models/         # Eloquent models
+├── Policies/       # Authorization policies
+└── Services/       # Business logic services
+
+resources/views/
+├── livewire/       # Volt components (single-file PHP + Blade)
+└── components/     # Blade components
+```
+
+### Key Models & Relationships
+- **Client**: Root tenant entity with subdomain isolation
+  - `hasMany(Subject)`, `hasMany(User)`, `hasOne(Admin)`
+- **User**: Polymorphic roles (Student, Teacher, Admin) via UserRole enum
+  - Implements Stripe customer integration via Cashier
+  - `belongsTo(Client)`, `hasOne(Profile)`, `belongsToMany(Classroom)`
+- **Subject**: Academic subjects within a client
+  - `belongsTo(Client)`, `hasMany(Lesson)`
+- **Lesson**: Video-based lessons with Cloudinary integration
+  - `belongsTo(Subject)`, `hasMany(Comment)`
+- **Assignment**: Tasks with submissions and grading
+  - `belongsTo(Subject)`, `hasMany(AssignmentSubmission)`
+- **Grade**: Academic grade levels (e.g., "Grade 10")
+- **Classroom**: Physical/virtual classrooms
+  - `belongsToMany(User)`
+
+### Authentication & Authorization
+- Multi-tenant authentication via subdomain
+- Custom `AuthenticationCheck` middleware for client routes
+- Policy-based authorization for resources
+- Filament implements `FilamentUser` contract for admin access
+
+### Payment Integration
+- Stripe integration via Laravel Cashier
+- Subscription checkout at `/checkout/{product}/{plan}`
+- Webhook handling for payment updates
+- User model includes Stripe customer traits
+
+## Frontend Development
+
+### Livewire & Volt
+- **Volt components**: Located in `resources/views/livewire/`
+- Use class-based Volt for complex logic, functional API for simpler cases
+- Always add `wire:key` in loops for proper reactivity
+- Use `wire:model.live` for real-time updates (not `wire:model`)
+
+### Flux UI Components
+Available free components: avatar, badge, button, checkbox, dropdown, field, heading, icon, input, modal, navbar, select, separator, switch, text, textarea, tooltip
+
+```blade
+<flux:button variant="primary">Click Me</flux:button>
+<flux:input wire:model.live.debounce.300ms="search" />
+```
+
+### TailwindCSS 4
+- Import via `@import "tailwindcss";` (NOT `@tailwind` directives)
+- Use `gap-*` for spacing in flex/grid (not margins)
+- Support dark mode with `dark:` prefix
+- Updated utilities: Use `bg-black/*` not `bg-opacity-*`, `shrink-*` not `flex-shrink-*`
+
+## Testing Requirements
+
+### Test Strategy
+- Every change MUST have tests (feature or unit)
+- Use factories for model creation
+- Feature tests go in `tests/Feature/`, unit tests in `tests/Unit/`
+- Livewire tests use `Livewire::test()` or `livewire()` helper
+
+### Filament Testing
+```php
+livewire(ListUsers::class)
+    ->assertCanSeeTableRecords($users)
+    ->searchTable($users->first()->name);
+
+livewire(CreateUser::class)
+    ->fillForm(['name' => 'Test', 'email' => 'test@example.com'])
+    ->call('create')
+    ->assertNotified();
+```
+
+### Volt Testing
+```php
+use Livewire\Volt\Volt;
+
+Volt::test('counter')
+    ->assertSee('Count: 0')
+    ->call('increment')
+    ->assertSee('Count: 1');
+```
+
+## Configuration
+
+### Environment Variables
+Required for development:
+- `APP_URL`: Main domain (e.g., `https://fahm.test`)
+- `DB_*`: Database credentials
+- `CLOUDINARY_URL`: Cloudinary API credentials
+- `STRIPE_KEY`, `STRIPE_SECRET`, `STRIPE_WEBHOOK_SECRET`: Stripe credentials
+
+### Laravel 12 Structure
+- No `app/Console/Kernel.php` - commands auto-register from `app/Console/Commands/`
+- Middleware registered in `bootstrap/app.php`, not separate middleware files
+- Use `config()` not `env()` outside config files
+
+## Code Conventions
+
+### PHP Standards
+- Constructor property promotion: `public function __construct(public GitHub $github) {}`
+- Always use explicit return types and type hints
+- Use curly braces for all control structures
+- Prefer PHPDoc blocks over inline comments
+- Follow PSR-12 coding standards
+
+### Laravel Patterns
+- Use Eloquent relationships over raw queries
+- Create Form Request classes for validation (check siblings for array vs string rules)
+- Eager load relationships to prevent N+1 queries
+- Use named routes with `route()` helper
+- Queue time-consuming operations with `ShouldQueue`
+
+### Filament
+- Create resources/pages via `php artisan filament:*` commands
+- Use `make()` for component initialization
+- Leverage `relationship()` method on form components for selects
+- Resources in `app/Filament/Resources/`, pages auto-generated in subdirectories
+
+## Important Notes
+
+- **Always run `./vendor/bin/pint --dirty` before committing**
+- **Never commit without running tests**
+- Frontend changes require `npm run build` or `npm run dev` to be visible
+- Use Laravel Boost's `search-docs` tool for version-specific Laravel ecosystem documentation
+- Avoid creating documentation files unless explicitly requested
+- Follow existing file conventions - check sibling files before creating new ones
+
+===
+
 <laravel-boost-guidelines>
 === foundation rules ===
 
@@ -307,7 +519,7 @@ avatar, badge, brand, breadcrumbs, button, callout, checkbox, dropdown, field, h
 
 ## Livewire Core
 - Use the `search-docs` tool to find exact version specific documentation for how to write Livewire & Livewire tests.
-- Use the `php artisan make:livewire [Posts\CreatePost]` artisan command to create new components
+- Use the `php artisan make:livewire [Posts\\CreatePost]` artisan command to create new components
 - State should live on the server, with the UI reflecting it.
 - All Livewire requests hit the Laravel backend, they're like regular HTTP requests. Always validate form data, and run authorization checks in Livewire actions.
 

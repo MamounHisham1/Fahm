@@ -1,0 +1,27 @@
+<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="nexusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Logo Symbol -->
+  <g transform="translate(10, 15)">
+    <!-- Interconnected nodes representing network/nexus -->
+    <circle cx="15" cy="15" r="8" fill="url(#nexusGradient)" opacity="0.9"/>
+    <circle cx="35" cy="25" r="6" fill="url(#nexusGradient)" opacity="0.7"/>
+    <circle cx="25" cy="35" r="5" fill="url(#nexusGradient)" opacity="0.8"/>
+    <circle cx="40" cy="10" r="4" fill="url(#nexusGradient)" opacity="0.6"/>
+    
+    <!-- Connecting lines -->
+    <line x1="15" y1="15" x2="35" y2="25" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.5"/>
+    <line x1="15" y1="15" x2="25" y2="35" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.5"/>
+    <line x1="35" y1="25" x2="40" y2="10" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.5"/>
+    <line x1="25" y1="35" x2="35" y2="25" stroke="url(#nexusGradient)" stroke-width="2" opacity="0.5"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="70" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1F2937">NEXUS</text>
+  <text x="70" y="52" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#6B7280">VENTURES</text>
+</svg>
