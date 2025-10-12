@@ -4,7 +4,7 @@
         <!-- Background Image with Overlay -->
         <div class="absolute inset-0">
             <img 
-                src="{{ asset('main-section.webp') }}"
+                src="{{ asset('storage/main-section.webp') }}"
                 alt="Platform Overview"
                 class="w-full h-full object-cover"
             >

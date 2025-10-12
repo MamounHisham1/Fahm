@@ -48,12 +48,12 @@
                 </ul>
             </div>
             <div class="bg-white rounded-xl shadow-lg p-2 border border-gray-200">
-                <img src="{{ asset('features/video-lessons-interface-feature.png') }}" alt="Video Lessons Interface" class="rounded-lg w-full">
+                <img src="{{ asset('storage/features/video-lessons-interface-feature.png') }}" alt="Video Lessons Interface" class="rounded-lg w-full">
             </div>
 
             <!-- Feature 2: Multi-Tenant Management -->
             <div class="bg-white rounded-xl shadow-lg p-2 border border-gray-200 md:order-3 lg:order-3">
-                <img src="{{ asset('features/multi-tenant--platform-feature.png') }}" alt="Multi-Tenant Management Dashboard" class="rounded-lg w-full">
+                <img src="{{ asset('storage/features/multi-tenant--platform-feature.png') }}" alt="Multi-Tenant Management Dashboard" class="rounded-lg w-full">
             </div>
             <div class="md:order-4 lg:order-4">
                 <div class="inline-flex items-center justify-center p-2 bg-purple-100 rounded-lg mb-4">
@@ -120,12 +120,12 @@
                 </ul>
             </div>
             <div class="bg-white rounded-xl shadow-lg p-2 border border-gray-200 md:order-6 lg:order-6">
-                <img src="{{ asset('features/grading-system-feature.png') }}" alt="Assignment System Dashboard" class="rounded-lg w-full">
+                <img src="{{ asset('storage/features/grading-system-feature.png') }}" alt="Assignment System Dashboard" class="rounded-lg w-full">
             </div>
 
             <!-- Feature 4: Interactive Discussions -->
             <div class="bg-white rounded-xl shadow-lg p-2 border border-gray-200 md:order-7 lg:order-7">
-                <img src="{{ asset('features/community-feature.png') }}" alt="Discussion System" class="rounded-lg w-full">
+                <img src="{{ asset('storage/features/community-feature.png') }}" alt="Discussion System" class="rounded-lg w-full">
             </div>
             <div class="md:order-8 lg:order-8">
                 <div class="inline-flex items-center justify-center p-2 bg-red-100 rounded-lg mb-4">

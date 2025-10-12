@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="order-1 lg:order-2 bg-white rounded-xl shadow-lg p-2 border border-gray-200">
-                <img src="{{ asset('team/team.jpg') }}" alt="Our Team" class="rounded-lg w-full">
+                <img src="{{ asset('storage/team/team.jpg') }}" alt="Our Team" class="rounded-lg w-full">
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@
             <!-- Team Member 1 -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
                 <div class="aspect-w-1 aspect-h-1 bg-gray-200">
-                    <img src="{{ asset('team/ceo-image.png') }}" alt="CEO" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/team/ceo-image.png') }}" alt="CEO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Alex Morgan</h3>
@@ -150,7 +150,7 @@
             <!-- Team Member 2 -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
                 <div class="aspect-w-1 aspect-h-1 bg-gray-200">
-                    <img src="{{ asset('team/cto-image.png') }}" alt="CTO" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/team/cto-image.png') }}" alt="CTO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Jamie Chen</h3>
@@ -162,7 +162,7 @@
             <!-- Team Member 3 -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
                 <div class="aspect-w-1 aspect-h-1 bg-gray-200">
-                    <img src="{{ asset('team/cpo-image.png') }}" alt="CPO" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/team/cpo-image.png') }}" alt="CPO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Taylor Williams</h3>
@@ -174,7 +174,7 @@
             <!-- Team Member 4 -->
             <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
                 <div class="aspect-w-1 aspect-h-1 bg-gray-200">
-                    <img src="{{ asset('team/cmo-image.png') }}" alt="CMO" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/team/cmo-image.png') }}" alt="CMO" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Jordan Patel</h3>
@@ -196,16 +196,16 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-center">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center h-24 hover:shadow-md transition-shadow duration-200">
-                    <img src="{{ asset('logos/investors/nexus-ventures.svg') }}" alt="Nexus Ventures" class="h-12 w-auto max-w-full">
+                    <img src="{{ asset('storage/logos/investors/nexus-ventures.svg') }}" alt="Nexus Ventures" class="h-12 w-auto max-w-full">
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center h-24 hover:shadow-md transition-shadow duration-200">
-                    <img src="{{ asset('logos/investors/quantum-capital.svg') }}" alt="Quantum Capital" class="h-12 w-auto max-w-full">
+                    <img src="{{ asset('storage/logos/investors/quantum-capital.svg') }}" alt="Quantum Capital" class="h-12 w-auto max-w-full">
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center h-24 hover:shadow-md transition-shadow duration-200">
-                    <img src="{{ asset('logos/investors/apex-partners.svg') }}" alt="Apex Partners" class="h-12 w-auto max-w-full">
+                    <img src="{{ asset('storage/logos/investors/apex-partners.svg') }}" alt="Apex Partners" class="h-12 w-auto max-w-full">
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center h-24 hover:shadow-md transition-shadow duration-200">
-                    <img src="{{ asset('logos/investors/stellar-fund.svg') }}" alt="Stellar Fund" class="h-12 w-auto max-w-full">
+                    <img src="{{ asset('storage/logos/investors/stellar-fund.svg') }}" alt="Stellar Fund" class="h-12 w-auto max-w-full">
                 </div>
             </div>
         </div>
