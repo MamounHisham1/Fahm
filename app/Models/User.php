@@ -33,6 +33,14 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if($panel->getId('dashboard')) {
+            return $this->role === UserRole::Admin || $this->role === UserRole::Teacher;
+        }
+        return $this->email === 'admin@admin.com';
+    }
+
     protected static function booted(): void
     {
         static::creating(function (User $user) {
@@ -57,11 +65,6 @@ class User extends Authenticatable implements FilamentUser
             ->explode(' ')
             ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
     }
 
     public function profile(): HasOne
