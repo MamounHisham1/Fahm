@@ -2,14 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UserRole;
 use App\Models\Admin;
 use App\Models\Client;
 use App\Models\Comment;
 use App\Models\Lesson;
 use App\Models\Profile;
 use App\Models\Subject;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +25,7 @@ class DatabaseSeeder extends Seeder
         Subject::factory(100)->create();
         Lesson::factory(1000)->create();
         Comment::factory(10000)->create();
-        
+
         $this->call([
             AssignmentSeeder::class,
             AssignmentSubmissionSeeder::class,

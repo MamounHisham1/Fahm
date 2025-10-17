@@ -5,14 +5,13 @@ namespace App\Models;
 use App\Traits\HasClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Subject extends Model
 {
-    use HasFactory, HasSlug, HasClient;
+    use HasClient, HasFactory, HasSlug;
 
     protected $fillable = ['name', 'slug', 'client_id'];
 

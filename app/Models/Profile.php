@@ -7,15 +7,13 @@ use App\Traits\HasClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 class Profile extends Model
 {
-    use HasFactory, HasSlug, HasClient;
+    use HasClient, HasFactory, HasSlug;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 

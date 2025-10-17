@@ -2,20 +2,19 @@
 
 namespace App\Livewire\ClientInterface;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use App\Models\Client;
 use App\Enums\UserRole;
 use App\Models\Profile;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('components.layouts.auth')]
 class Register extends Component
@@ -23,14 +22,23 @@ class Register extends Component
     use WithFileUploads;
 
     public $name;
+
     public $email;
+
     public $password;
+
     public $password_confirmation;
+
     public $gender;
+
     public $phone;
+
     public $address;
+
     public $bio;
+
     public $avatar;
+
     public $terms = false;
 
     public $client;

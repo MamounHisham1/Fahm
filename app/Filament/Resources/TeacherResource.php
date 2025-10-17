@@ -3,25 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeacherResource\Pages;
-use App\Filament\Resources\TeacherResource\RelationManagers;
 use App\Forms\Components\Relationship;
-use App\Models\Profile;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherResource extends Resource
@@ -76,10 +71,10 @@ class TeacherResource extends Resource
                                 TextInput::make('phone')
                                     ->tel(),
                                 TextInput::make('address'),
-                                RichEditor::make('bio')
+                                RichEditor::make('bio'),
                             ]),
                         ]),
-                ])
+                ]),
             ])->columns(1);
     }
 
@@ -90,7 +85,7 @@ class TeacherResource extends Resource
                 ImageColumn::make('profile.avatar')
                     ->label('Avatar')
                     ->circular()
-                    ->default('https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)),
+                    ->default('https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name)),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('email')
@@ -98,8 +93,8 @@ class TeacherResource extends Resource
                 TextColumn::make('profile.gender')
                     ->label('Gender')
                     ->badge()
-                    ->formatStateUsing(fn(string $state): string => ucfirst($state))
-                    ->color(fn(string $state): string => match ($state) {
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state))
+                    ->color(fn (string $state): string => match ($state) {
                         'male' => 'info',
                         'female' => 'danger',
                         default => 'secondary',

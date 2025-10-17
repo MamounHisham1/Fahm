@@ -3,8 +3,8 @@
 namespace App\Livewire\Auth;
 
 use App\Enums\UserRole;
-use App\Models\User;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,13 +21,21 @@ class Register extends Component
     use WithFileUploads;
 
     public string $name = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $domain;
+
     public string $password_confirmation = '';
+
     public string $school_name = '';
+
     public $logo;
+
     public string $description = '';
+
     public bool $terms = false;
 
     public function register()
@@ -51,12 +59,12 @@ class Register extends Component
                 'name' => $validated['school_name'],
                 'description' => $validated['description'],
             ]);
-    
+
             if ($this->logo) {
                 $logoPath = $this->logo->store('logos', 'public');
                 $client->update(['logo' => $logoPath]);
             }
-    
+
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -65,7 +73,7 @@ class Register extends Component
                 'role' => UserRole::Admin,
             ]);
             event(new Registered($user));
-            
+
             Auth::login($user);
             DB::commit();
         } catch (\Exception $e) {
@@ -75,7 +83,7 @@ class Register extends Component
 
         // TODO: Enhance this to use the correct solution. the redirect url will this https://some-domain.fahm.test/admin/dashboard
         $appDomain = config('fahm.app_domain');
-        
+
         return redirect()->away("https://{$client->domain}.{$appDomain}/dashboard");
     }
 

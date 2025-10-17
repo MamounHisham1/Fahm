@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Assignment extends Model
 {
-    use HasFactory, HasClient;
+    use HasClient, HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -27,7 +27,7 @@ class Assignment extends Model
     {
         return $this->belongsTo(Subject::class);
     }
-    
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -7,7 +7,7 @@ use Cloudinary\Cloudinary;
 class CloudinaryService
 {
     protected $cloudinary;
-    
+
     public function __construct()
     {
         $this->cloudinary = new Cloudinary([
@@ -17,11 +17,11 @@ class CloudinaryService
                 'api_secret' => env('CLOUDINARY_API_SECRET'),
             ],
             'url' => [
-                'secure' => true
-            ]
+                'secure' => true,
+            ],
         ]);
     }
-    
+
     public function uploadVideo($file, $folder = 'lessons')
     {
         $result = $this->cloudinary->uploadApi()->upload($file, [
@@ -31,10 +31,10 @@ class CloudinaryService
                 'quality' => 'auto',
             ],
         ]);
-        
+
         return $result;
     }
-    
+
     public function generateThumbnail($publicId)
     {
         return $this->cloudinary->image($publicId)
@@ -42,11 +42,11 @@ class CloudinaryService
             ->effect('preview')
             ->toUrl();
     }
-    
+
     public function deleteVideo($publicId)
     {
         return $this->cloudinary->uploadApi()->destroy($publicId, [
-            'resource_type' => 'video'
+            'resource_type' => 'video',
         ]);
     }
 }

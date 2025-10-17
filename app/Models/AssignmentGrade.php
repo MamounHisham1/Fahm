@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AssignmentGrade extends Model
 {
-    use HasFactory, HasClient;
+    use HasClient, HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 

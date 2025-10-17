@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Client;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +19,7 @@ class ProfileFactory extends Factory
     {
         $user = User::factory()->create();
         $client = $user->client;
+
         return [
             'user_id' => $user->id,
             'client_id' => $client->id,

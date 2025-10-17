@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class CheckoutController extends Controller
 {
@@ -18,30 +16,30 @@ class CheckoutController extends Controller
             'prod_StQZW1xtmLhfIH' => 'pro',
             'prod_StQb8sdDEmJM48' => 'enterprise',
         ];
-        
+
         $subscriptionType = $subscriptionTypes[$product] ?? 'default';
         $user = $request->user();
-        
+
         // Check if user is authenticated
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')->with('message', 'Please login to subscribe to a plan.');
         }
-        
+
         // Check if user has an existing active subscription
         $existingSubscription = $user->subscriptions()
             ->whereIn('stripe_status', ['active', 'trialing'])
             ->first();
-        
+
         if ($existingSubscription) {
             // If they're trying to subscribe to the same plan, redirect to pricing
             if ($existingSubscription->stripe_price === $plan) {
                 return redirect()->route('pricing')->with('message', 'You are already subscribed to this plan.');
             }
-            
+
             // For plan changes, create checkout session (customer will pay through Stripe)
             return $user->newSubscription($subscriptionType, $plan)
                 ->checkout([
-                    'success_url' => route('home') . '?plan_changed=true',
+                    'success_url' => route('home').'?plan_changed=true',
                     'cancel_url' => route('pricing'),
                     'metadata' => [
                         'action' => 'plan_change',
@@ -50,7 +48,7 @@ class CheckoutController extends Controller
                     ],
                 ]);
         }
-        
+
         // Create new subscription if no existing subscription
         return $user->newSubscription($subscriptionType, $plan)
             ->checkout([

@@ -2,13 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\LessonStatus;
 use App\Enums\LessonType;
 use App\Enums\UserRole;
 use App\Filament\Resources\LessonResource\Pages;
-use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Forms\Components\VideoUploader;
-use App\Models\Client;
 use App\Models\Lesson;
 use App\Models\Subject;
 use App\Models\User;
@@ -17,12 +14,8 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 
 class LessonResource extends Resource
 {
@@ -37,13 +30,13 @@ class LessonResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('Teacher')
                     ->required()
-                    ->options(function() {
+                    ->options(function () {
                         return User::where('role', UserRole::Teacher)->where('client_id', request()->user()->client_id)->pluck('name', 'id');
                     }),
                 Forms\Components\Select::make('subject_id')
                     ->label('Subject')
                     ->required()
-                    ->options(function() {
+                    ->options(function () {
                         return Subject::where('client_id', request()->user()->client_id)->pluck('name', 'id');
                     }),
                 Forms\Components\TextInput::make('title')
@@ -76,7 +69,7 @@ class LessonResource extends Resource
                 TextColumn::make('teacher.name')
                     ->searchable(),
                 TextColumn::make('type')
-                    ->formatStateUsing(fn(string $state): string => ucfirst($state)),
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

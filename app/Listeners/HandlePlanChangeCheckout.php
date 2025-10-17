@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Laravel\Cashier\Events\WebhookReceived;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Laravel\Cashier\Events\WebhookReceived;
 
 class HandlePlanChangeCheckout
 {
@@ -24,7 +24,7 @@ class HandlePlanChangeCheckout
     protected function handleCheckoutCompleted(array $payload): void
     {
         $session = $payload['data']['object'];
-        
+
         // Check if this is a plan change checkout
         if (isset($session['metadata']['action']) && $session['metadata']['action'] === 'plan_change') {
             $this->handlePlanChange($session);
@@ -39,26 +39,28 @@ class HandlePlanChangeCheckout
         try {
             $userId = $session['metadata']['user_id'] ?? null;
             $oldSubscriptionId = $session['metadata']['old_subscription_id'] ?? null;
-            
-            if (!$userId || !$oldSubscriptionId) {
+
+            if (! $userId || ! $oldSubscriptionId) {
                 Log::warning('Plan change webhook missing required metadata', [
                     'session_id' => $session['id'],
                     'metadata' => $session['metadata'] ?? 'None',
                 ]);
+
                 return;
             }
-            
+
             $user = User::find($userId);
-            if (!$user) {
+            if (! $user) {
                 Log::error('User not found for plan change', ['user_id' => $userId]);
+
                 return;
             }
-            
+
             // Find the old subscription and cancel it
             $oldSubscription = $user->subscriptions()
                 ->where('stripe_id', $oldSubscriptionId)
                 ->first();
-                
+
             if ($oldSubscription) {
                 $oldSubscription->cancel();
                 Log::info('Old subscription canceled after plan change', [
@@ -67,7 +69,7 @@ class HandlePlanChangeCheckout
                     'session_id' => $session['id'],
                 ]);
             }
-            
+
         } catch (\Exception $e) {
             Log::error('Error handling plan change checkout', [
                 'error' => $e->getMessage(),

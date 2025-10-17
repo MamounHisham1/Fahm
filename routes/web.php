@@ -31,7 +31,7 @@ Route::domain($domain)->group(function () {
 Route::middleware('bindDomain')->group(function () {
     Route::get('/signin', Login::class)->name('client.login');
     Route::get('/signup', Register::class)->name('client.register');
-    
+
     Route::middleware(AuthenticationCheck::class)->group(function () {
         Route::get('/', Home::class)->name('client.home');
         Route::get('/assignments', Assignment::class)->name('client.assignments');

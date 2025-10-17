@@ -2,17 +2,16 @@
 
 namespace App\Livewire\ClientInterface;
 
-use App\Models\Client;
-use Livewire\Component;
-use Livewire\Attributes\Validate;
+use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\Context;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 #[Layout('components.layouts.auth')]
 class Login extends Component
@@ -44,7 +43,7 @@ class Login extends Component
         if (! Auth::attempt([
             'email' => $this->email,
             'password' => $this->password,
-            'client_id' => $this->client->id
+            'client_id' => $this->client->id,
         ], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 

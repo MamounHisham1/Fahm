@@ -5,8 +5,8 @@ namespace App\Livewire\ClientInterface;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 #[Layout('components.layouts.app.client-interface')]
@@ -15,16 +15,23 @@ class ViewAssignment extends Component
     use WithFileUploads;
 
     public $assignment;
+
     public $client;
+
     public $submission;
+
     public $file;
+
     public $text;
+
     public $type = 'file';
+
     public $alerts = [];
+
     public function mount(Assignment $assignment)
     {
         $this->client = Context::getHidden('client');
-        
+
         if ($assignment->client_id !== $this->client->id) {
             abort(404);
         }

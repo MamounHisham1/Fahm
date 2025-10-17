@@ -2,7 +2,6 @@
 
 namespace App\Livewire\ClientInterface;
 
-use App\Models\Client;
 use App\Models\Subject as SubjectModel;
 use Illuminate\Support\Facades\Context;
 use Livewire\Attributes\Layout;
@@ -15,6 +14,7 @@ class Subject extends Component
     use WithPagination;
 
     public $client;
+
     public $search = '';
 
     public function mount()
@@ -26,7 +26,7 @@ class Subject extends Component
     {
         $subjects = SubjectModel::where('client_id', $this->client->id)
             ->when($this->search, function ($query) {
-                return $query->where('name', 'like', '%' . $this->search . '%');
+                return $query->where('name', 'like', '%'.$this->search.'%');
             })
             ->withCount('lessons')
             ->orderBy('name')

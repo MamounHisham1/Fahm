@@ -7,7 +7,7 @@ use Filament\Forms\Components\Field;
 class VideoUploader extends Field
 {
     protected string $view = 'forms.components.video-uploader';
-    
+
     protected function setUp(): void
     {
         parent::setUp();

@@ -3,7 +3,6 @@
 namespace App\Filament\Fahm\Resources\ClassroomResource\Pages;
 
 use App\Filament\Fahm\Resources\ClassroomResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateClassroom extends CreateRecord

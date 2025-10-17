@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\LessonStatus;
 use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

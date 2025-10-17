@@ -14,10 +14,10 @@ class AssignmentSubmissionSeeder extends Seeder
     public function run(): void
     {
         $assignments = Assignment::where('status', '!=', 'pending')->get();
-        
+
         foreach ($assignments as $assignment) {
             $submissionCount = rand(1, 5);
-            
+
             AssignmentSubmission::factory()
                 ->count($submissionCount)
                 ->create([

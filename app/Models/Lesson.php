@@ -15,7 +15,7 @@ use Spatie\Sluggable\SlugOptions;
 class Lesson extends Model
 {
     /** @use HasFactory<\Database\Factories\LessonFactory> */
-    use HasFactory, HasSlug, HasClient;
+    use HasClient, HasFactory, HasSlug;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 

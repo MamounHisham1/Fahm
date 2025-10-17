@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ProfileResource\Pages;
 
 use App\Filament\Resources\ProfileResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateProfile extends CreateRecord
@@ -14,6 +13,7 @@ class CreateProfile extends CreateRecord
     {
         dd($data);
         $data['user_id'] = auth()->id();
+
         return $data;
     }
 }

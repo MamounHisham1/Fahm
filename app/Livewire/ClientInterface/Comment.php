@@ -9,12 +9,19 @@ use Livewire\Component;
 class Comment extends Component
 {
     public $lesson;
+
     public $comments;
+
     public $comment;
+
     public $replayText;
+
     public $alerts = [];
+
     public $replyingTo = null;
+
     public $replyingForm = false;
+
     protected $listeners = ['clearAlert'];
 
     public function mount($lesson)
@@ -27,7 +34,7 @@ class Comment extends Component
     {
         return view('livewire.client-interface.comment');
     }
-    
+
     public function addComment()
     {
         $this->validate([
@@ -42,31 +49,31 @@ class Comment extends Component
 
         $this->comment = '';
         $this->comments = $this->lesson->comments()->where('parent_id', null)->with(['user', 'children.user', 'likes'])->get();
-        
+
         $this->alerts['comment_added'] = [
             'type' => 'success',
-            'message' => 'Your comment has been posted successfully.'
+            'message' => 'Your comment has been posted successfully.',
         ];
     }
-    
+
     public function deleteComment($commentId)
     {
         $comment = CommentModel::findOrFail($commentId);
-        
+
         if (Auth::id() !== $comment->user_id) {
             return;
         }
-        
+
         $comment->delete();
-        
+
         $this->comments = $this->lesson->comments;
-        
+
         $this->alerts['comment_deleted'] = [
             'type' => 'success',
-            'message' => 'Comment deleted successfully.'
+            'message' => 'Comment deleted successfully.',
         ];
     }
-    
+
     public function clearAlert($alertId)
     {
         if (isset($this->alerts[$alertId])) {
@@ -91,10 +98,10 @@ class Comment extends Component
         $this->comments = $this->lesson->comments()->where('parent_id', null)->with(['user', 'children.user'])->get();
         $this->replyingTo = null;
         $this->replyingForm = false;
-        
+
         $this->alerts['reply_added'] = [
             'type' => 'success',
-            'message' => 'Your reply has been posted successfully.'
+            'message' => 'Your reply has been posted successfully.',
         ];
     }
 
@@ -115,13 +122,13 @@ class Comment extends Component
     {
         $comment = CommentModel::findOrFail($commentId);
         $userId = Auth::id();
-        
+
         if ($comment->likes()->where('user_id', $userId)->exists()) {
             $comment->likes()->detach($userId);
         } else {
             $comment->likes()->attach($userId);
         }
-        
+
         $this->comments = $this->lesson->comments()->where('parent_id', null)->with(['user', 'children.user', 'likes'])->get();
     }
 }

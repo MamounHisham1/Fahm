@@ -2,12 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\LessonStatus;
 use App\Enums\LessonType;
 use App\Enums\UserRole;
-use App\Models\Client;
-use App\Models\Profile;
-use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,6 +22,7 @@ class LessonFactory extends Factory
         $user = User::where('role', UserRole::Teacher)->inRandomOrder()->first();
         $client = $user->client;
         $subject = $client->subjects()->inRandomOrder()->first();
+
         return [
             'subject_id' => $subject->id,
             'client_id' => $client->id,

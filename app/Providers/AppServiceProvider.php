@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use App\Forms\Components\VideoUploader;
-use App\Livewire\ClientInterface\Home;
-use App\Models\Client;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -13,10 +11,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,9 +20,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -42,12 +36,11 @@ class AppServiceProvider extends ServiceProvider
         RichEditor::configureUsing(fn (RichEditor $richEditor) => $richEditor->inlineLabel());
         VideoUploader::configureUsing(fn (VideoUploader $videoUploader) => $videoUploader->inlineLabel());
 
-        
         Table::macro('clientData', function () {
             return $this->modifyQueryUsing(function (Builder $query) {
                 return $query->where('client_id', request()->user()->client_id);
             });
-        }); 
+        });
 
         Model::preventSilentlyDiscardingAttributes();
     }

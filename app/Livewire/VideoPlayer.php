@@ -7,6 +7,7 @@ use Livewire\Component;
 class VideoPlayer extends Component
 {
     public $videoPublicId;
+
     public $cloudName;
 
     public function mount()

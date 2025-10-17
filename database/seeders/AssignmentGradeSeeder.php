@@ -16,11 +16,11 @@ class AssignmentGradeSeeder extends Seeder
     public function run(): void
     {
         $submissions = AssignmentSubmission::where('status', 'graded')->get();
-        
+
         foreach ($submissions as $submission) {
             // Create 1-3 grades per submission (multiple teachers might grade)
             $gradeCount = rand(1, 3);
-            
+
             AssignmentGrade::factory()
                 ->count($gradeCount)
                 ->create([

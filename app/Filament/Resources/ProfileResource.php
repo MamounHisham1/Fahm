@@ -4,9 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\UserRole;
 use App\Filament\Resources\ProfileResource\Pages;
-use App\Filament\Resources\ProfileResource\RelationManagers;
 use App\Models\Profile;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -19,8 +17,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileResource extends Resource
@@ -69,8 +65,8 @@ class ProfileResource extends Resource
                             TextInput::make('address'),
                             RichEditor::make('bio'),
                         ]),
-            ])
-        ])->columns(1);
+                ]),
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -83,14 +79,14 @@ class ProfileResource extends Resource
                     ->circular(),
                 TextColumn::make('gender')
                     ->badge()
-                    ->formatStateUsing(fn(string $state): string => ucfirst($state))
-                    ->color(fn(string $state): string => match ($state) {
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state))
+                    ->color(fn (string $state): string => match ($state) {
                         'male' => 'info',
                         'female' => 'danger',
                     }),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'active' => 'success',
                         'inactive' => 'danger',
                         default => 'secondary',

@@ -4,7 +4,6 @@ namespace App\Forms\Components;
 
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Concerns\EntanglesStateWithSingularRelationship;
-use Filament\Forms\Components\Section;
 
 class Relationship extends Component
 {

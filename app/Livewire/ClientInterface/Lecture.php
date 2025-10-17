@@ -2,7 +2,6 @@
 
 namespace App\Livewire\ClientInterface;
 
-use App\Models\Client;
 use Illuminate\Support\Facades\Context;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -11,12 +10,19 @@ use Livewire\Component;
 class Lecture extends Component
 {
     public $client;
+
     public $search = '';
+
     public $subjectFilter = '';
+
     public $typeFilter = '';
+
     public $selectedLecture = null;
+
     public $joiningLecture = null;
+
     public $enableCamera = true;
+
     public $enableMicrophone = true;
 
     public function mount()

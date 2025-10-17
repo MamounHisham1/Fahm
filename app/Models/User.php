@@ -18,7 +18,7 @@ use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable, Billable;
+    use Billable, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -35,16 +35,17 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        if($panel->getId('dashboard')) {
+        if ($panel->getId('dashboard')) {
             return $this->role === UserRole::Admin || $this->role === UserRole::Teacher;
         }
+
         return $this->email === 'admin@admin.com';
     }
 
     protected static function booted(): void
     {
         static::creating(function (User $user) {
-            if($user->role === UserRole::Teacher) {
+            if ($user->role === UserRole::Teacher) {
                 $user->client_id = request()->user()->client_id;
             }
         });
@@ -63,7 +64,7 @@ class User extends Authenticatable implements FilamentUser
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 

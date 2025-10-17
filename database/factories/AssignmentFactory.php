@@ -21,7 +21,7 @@ class AssignmentFactory extends Factory
         $user = User::where('role', UserRole::Teacher)->inRandomOrder()->first();
         $client = $user->client;
         $subject = $client->subjects()->inRandomOrder()->first();
-        
+
         return [
             'client_id' => $client->id,
             'subject_id' => $subject->id,
