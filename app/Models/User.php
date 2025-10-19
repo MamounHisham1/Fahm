@@ -35,17 +35,21 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        if ($panel->getId('dashboard')) {
+        if ($this->email === 'admin@admin.com') {
+            return true;
+        }
+
+        if ($panel->getId() === 'dashboard') {
             return $this->role === UserRole::Admin || $this->role === UserRole::Teacher;
         }
 
-        return $this->email === 'admin@admin.com';
+        return false;
     }
 
     protected static function booted(): void
     {
         static::creating(function (User $user) {
-            if ($user->role === UserRole::Teacher) {
+            if ($user->role === UserRole::Teacher && request()->user()) {
                 $user->client_id = request()->user()->client_id;
             }
         });

@@ -21,10 +21,8 @@ class StudentEnrollmentChart extends ChartWidget
         $clientId = Auth::user()->client_id;
 
         // Get classrooms with their student counts
-        $classrooms = Classroom::where('client_id', $clientId)
-            ->withCount(['users' => function ($query) {
-                $query->where('role', UserRole::Student);
-            }])
+        $classrooms = Classroom::with('users')
+            ->where('client_id', $clientId)
             ->get();
 
         $labels = $classrooms->pluck('name')->toArray();

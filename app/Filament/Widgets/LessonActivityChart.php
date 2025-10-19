@@ -31,9 +31,6 @@ class LessonActivityChart extends ChartWidget
                 end: now(),
             )
             ->perWeek()
-            ->whereHas('subject', function ($query) use ($clientId) {
-                $query->where('client_id', $clientId);
-            })
             ->count();
 
         // Get subject creation data for comparison
@@ -43,7 +40,6 @@ class LessonActivityChart extends ChartWidget
                 end: now(),
             )
             ->perWeek()
-            ->where('client_id', $clientId)
             ->count();
 
         return [
