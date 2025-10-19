@@ -2,33 +2,40 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClassroomResource\Pages;
-use App\Models\Classroom;
+use App\Filament\Resources\AssignmentGradeResource\Pages;
+use App\Filament\Resources\AssignmentGradeResource\RelationManagers;
+use App\Models\AssignmentGrade;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ClassroomResource extends Resource
+class AssignmentGradeResource extends Resource
 {
-    protected static ?string $model = Classroom::class;
+    protected static ?string $model = AssignmentGrade::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Grades';
+    protected static ?string $navigationGroup = 'Assignments';    
+    protected static ?string $navigationIcon = 'heroicon-o-check-circle';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('client_id')
-                    ->relationship('client', 'name')
+                Forms\Components\Select::make('submission_id')
+                    ->relationship('submission', 'id')
                     ->required(),
-                Forms\Components\Select::make('grade_id')
-                    ->relationship('grade', 'id')
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('score')
                     ->required()
-                    ->maxLength(255),
+                    ->numeric(),
+                Forms\Components\Textarea::make('feedback')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -36,14 +43,15 @@ class ClassroomResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('client.name')
+                Tables\Columns\TextColumn::make('submission.id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('grade.id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('score')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -76,9 +84,9 @@ class ClassroomResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClassrooms::route('/'),
-            'create' => Pages\CreateClassroom::route('/create'),
-            'edit' => Pages\EditClassroom::route('/{record}/edit'),
+            'index' => Pages\ListAssignmentGrades::route('/'),
+            'create' => Pages\CreateAssignmentGrade::route('/create'),
+            'edit' => Pages\EditAssignmentGrade::route('/{record}/edit'),
         ];
     }
 }

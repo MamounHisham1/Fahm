@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\UserRole;
 use App\Filament\Resources\TeacherResource\Pages;
 use App\Forms\Components\Relationship;
 use App\Models\User;
@@ -110,7 +111,9 @@ class TeacherResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])->clientData()
+            ])->modifyQueryUsing(function (Builder $query): Builder {
+                return $query->where('client_id', request()->user()->client_id)->where('role', UserRole::Teacher);
+            })
             ->filters([
                 //
             ])

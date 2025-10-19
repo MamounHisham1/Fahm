@@ -16,17 +16,14 @@ class Classroom extends Model
     protected static function booted(): void
     {
         static::creating(function (Classroom $classroom) {
-            $classroom->client_id = request()->user()->client_id;
+            if (request()->user() && ! $classroom->client_id) {
+                $classroom->client_id = request()->user()->client_id;
+            }
         });
     }
 
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
-    }
-
-    public function grade(): BelongsTo
-    {
-        return $this->belongsTo(Grade::class);
     }
 }

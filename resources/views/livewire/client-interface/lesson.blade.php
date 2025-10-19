@@ -93,7 +93,7 @@
 
         <!-- Current Lesson Display -->
         <div class="lg:col-span-3">
-            @if ($selectedLesson)
+            @if ($selectedLesson->public_id || $selectedLesson->type == 'youtube')
                 <div
                     class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="aspect-video bg-gray-900 w-full relative">
@@ -118,7 +118,7 @@
                                                 clip-rule="evenodd"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-white text-sm">{{ __('No video available for this lesson') }}</p>
+                                    <p class="text-white text-sm">{{ __('No video available for this lesson yet') }}</p>
                                 </div>
                             </div>
                         @endif

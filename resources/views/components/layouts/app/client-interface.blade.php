@@ -30,9 +30,9 @@
                 <flux:navbar.item icon="clipboard-document-list" href="{{ route('client.assignments') }}" :current="request()->routeIs('client.assignments')" wire:navigate>
                     {{ __('Assignments') }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="chart-bar" href="{{ route('client.lectures') }}" :current="request()->routeIs('client.lectures')" wire:navigate>
+                {{-- <flux:navbar.item icon="chart-bar" href="{{ route('client.lectures') }}" :current="request()->routeIs('client.lectures')" wire:navigate>
                     {{ __('Lectures') }}
-                </flux:navbar.item>
+                </flux:navbar.item> --}}
             </flux:navbar>
 
             <flux:spacer />
@@ -119,17 +119,14 @@
                     <flux:navlist.item icon="home" :href="route('client.home')" :current="request()->routeIs('client.home')" wire:navigate>
                         {{ __('Home') }}
                     </flux:navlist.item>
-                    <flux:navlist.item icon="academic-cap" href="#courses" :current="request()->routeIs('client.courses')">
-                        {{ __('Courses') }}
+                    <flux:navlist.item icon="academic-cap" href="{{ route('client.subjects') }}" :current="request()->routeIs('client.subjects')">
+                        {{ __('Subjects') }}
                     </flux:navlist.item>
-                    <flux:navlist.item icon="book-open" href="#lessons" :current="request()->routeIs('client.lessons')">
-                        {{ __('Lessons') }}
-                    </flux:navlist.item>
-                    <flux:navlist.item icon="clipboard-document-list" href="#assignments" :current="request()->routeIs('client.assignments')">
+                    {{-- <flux:navlist.item icon="book-open" href="{{ route('client.lectures') }}" :current="request()->routeIs('client.lectures')">
+                        {{ __('Lectures') }}
+                    </flux:navlist.item> --}}
+                    <flux:navlist.item icon="clipboard-document-list" href="{{ route('client.assignments') }}" :current="request()->routeIs('client.assignments')">
                         {{ __('Assignments') }}
-                    </flux:navlist.item>
-                    <flux:navlist.item icon="chart-bar" href="#progress" :current="request()->routeIs('client.progress')">
-                        {{ __('Progress') }}
                     </flux:navlist.item>
                 </flux:navlist.group>
 
