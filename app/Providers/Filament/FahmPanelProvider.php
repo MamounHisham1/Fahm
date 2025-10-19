@@ -36,11 +36,7 @@ class FahmPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Fahm/Widgets'), for: 'App\\Filament\\Fahm\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                \App\Filament\Fahm\Widgets\ClientStatsOverview::class,
-                \App\Filament\Fahm\Widgets\UserGrowthChart::class,
-                \App\Filament\Fahm\Widgets\UserRoleDistributionChart::class,
-                \App\Filament\Fahm\Widgets\RecentClientsTable::class,
+                // 
             ])
             ->middleware([
                 EncryptCookies::class,

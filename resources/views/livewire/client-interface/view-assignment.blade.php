@@ -90,7 +90,7 @@
                                 {{ $submission->grades->first()->score }}
                             </span>
                             <span class="text-sm text-gray-500">
-                                / {{ $submission->grades->first()->max_score }}
+                                / {{ $submission->assignment->max_score }}
                             </span>
                         </div>
                         <div class="h-8 w-px bg-gray-200"></div>
