@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ClientResource\Pages;
+namespace App\Filament\Fahm\Resources\ClientResource\Pages;
 
-use App\Filament\Resources\ClientResource;
+use App\Filament\Fahm\Resources\ClientResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateClient extends CreateRecord
