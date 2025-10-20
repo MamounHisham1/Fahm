@@ -27,10 +27,12 @@ class GradeAssignmentSubmission extends Page
     {
         $this->record = $record;
 
-        // Load existing grade if it exists
         $existingGrade = $record->grades->first();
 
         $this->form->fill([
+            'assignment' => $this->record->assignment->title ?? '',
+            'student' => $this->record->user->name ?? '',
+            'max_score' => $this->record->assignment->max_score ?? '',
             'score' => $existingGrade?->score ?? '',
             'feedback' => $existingGrade?->feedback ?? '',
         ]);
@@ -42,18 +44,15 @@ class GradeAssignmentSubmission extends Page
             ->schema([
                 Forms\Components\Section::make('Assignment Information')
                     ->schema([
-                        Forms\Components\TextInput::make('assignment_title')
+                        Forms\Components\TextInput::make('assignment')
                             ->label('Assignment')
-                            ->disabled()
-                            ->default($this->record->assignment->title),
-                        Forms\Components\TextInput::make('student_name')
+                            ->readOnly(),
+                        Forms\Components\TextInput::make('student')
                             ->label('Student')
-                            ->disabled()
-                            ->default($this->record->user->name),
+                            ->readOnly(),
                         Forms\Components\TextInput::make('max_score')
                             ->label('Maximum Score')
-                            ->disabled()
-                            ->default($this->record->assignment->max_score),
+                            ->readOnly(),
                     ])
                     ->columns(3),
 
@@ -87,7 +86,7 @@ class GradeAssignmentSubmission extends Page
 
     public function getTitle(): string|Htmlable
     {
-        return "Grade Submission: {$this->record->assignment->title}";
+        return "Submission: {$this->record->assignment->title}";
     }
 
     public function getSubheading(): string|Htmlable|null
@@ -111,11 +110,10 @@ class GradeAssignmentSubmission extends Page
 
         $data = $this->form->getState();
 
-        // Create or update the grade
         $grade = AssignmentGrade::updateOrCreate(
             [
                 'submission_id' => $this->record->id,
-                'user_id' => auth()->id(), // The teacher grading the assignment
+                'user_id' => $this->record->user->id,
             ],
             [
                 'score' => $data['score'],
@@ -123,9 +121,7 @@ class GradeAssignmentSubmission extends Page
             ]
         );
 
-        // Notify the student about the grade
-        // Temporarily disabled for testing
-        // $this->record->user->notify(new AssignmentGraded($grade));
+        $this->record->user->notify(new AssignmentGraded($grade));
 
         Notification::make()
             ->title('Grade Saved Successfully')

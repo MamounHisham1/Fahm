@@ -134,8 +134,7 @@
 
                             <label
                                 class="flex items-center p-3 gap-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
-                                :class="{ 'bg-blue-50 border-blue-200': $wire
-                                        .type === 'text' }">
+                                :class="{ 'bg-blue-50 border-blue-200': $wire.type === 'text' }">
                                 <input type="radio" name="type" wire:model="type" value="text"
                                     class="text-blue-600 focus:ring-blue-500">
                                 <div>

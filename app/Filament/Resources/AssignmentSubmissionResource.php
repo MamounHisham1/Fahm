@@ -47,20 +47,17 @@ class AssignmentSubmissionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('assignment.title')
-                    ->numeric()
+                    ->limit(10)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
+                    ->label('Student')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('file')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('grades_count')
+                Tables\Columns\TextColumn::make('status')
                     ->label('Grade Status')
                     ->formatStateUsing(function ($state, AssignmentSubmission $record) {
-                        if ($record->grades->count() > 0) {
+                        if ($record->grades->isNotEmpty()) {
                             return 'Graded';
                         }
 
@@ -101,7 +98,7 @@ class AssignmentSubmissionResource extends Resource
                     ->label('Grade')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->url(fn (AssignmentSubmission $record) => static::getUrl('grade', ['record' => $record])),
+                ->url(fn (AssignmentSubmission $record) => static::getUrl('grade', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
