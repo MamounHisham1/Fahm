@@ -25,11 +25,11 @@ class AssignmentFactory extends Factory
         return [
             'client_id' => $client->id,
             'subject_id' => $subject->id,
-            'user_id' => $user->id,
             'title' => fake()->realText(10),
             'description' => fake()->realText(100),
-            'status' => fake()->randomElement(['pending', 'submitted', 'graded']),
+            'type' => fake()->randomElement(['file', 'text']),
             'due_date' => fake()->dateTimeBetween('now', '+30 days'),
+            'max_score' => 100,
         ];
     }
 }

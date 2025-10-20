@@ -3,22 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AssignmentSubmissionResource\Pages;
-use App\Filament\Resources\AssignmentSubmissionResource\RelationManagers;
 use App\Models\AssignmentSubmission;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AssignmentSubmissionResource extends Resource
 {
     protected static ?string $model = AssignmentSubmission::class;
 
     protected static ?string $navigationGroup = 'Assignments';
+
     protected static ?string $navigationLabel = 'Submissions';
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
@@ -58,6 +57,32 @@ class AssignmentSubmissionResource extends Resource
                 Tables\Columns\TextColumn::make('file')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('grades_count')
+                    ->label('Grade Status')
+                    ->formatStateUsing(function ($state, AssignmentSubmission $record) {
+                        if ($record->grades->count() > 0) {
+                            return 'Graded';
+                        }
+
+                        return 'Pending';
+                    })
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'Graded' => 'success',
+                        'Pending' => 'warning',
+                        default => 'gray',
+                    }),
+                Tables\Columns\TextColumn::make('grades.score')
+                    ->label('Score')
+                    ->formatStateUsing(function ($state, AssignmentSubmission $record) {
+                        if ($record->grades->count() > 0) {
+                            $grade = $record->grades->first();
+
+                            return $grade->score.' / '.$record->assignment->max_score;
+                        }
+
+                        return 'Not graded';
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -72,6 +97,11 @@ class AssignmentSubmissionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('grade')
+                    ->label('Grade')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->url(fn (AssignmentSubmission $record) => static::getUrl('grade', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -93,6 +123,7 @@ class AssignmentSubmissionResource extends Resource
             'index' => Pages\ListAssignmentSubmissions::route('/'),
             'create' => Pages\CreateAssignmentSubmission::route('/create'),
             'edit' => Pages\EditAssignmentSubmission::route('/{record}/edit'),
+            'grade' => Pages\GradeAssignmentSubmission::route('/{record}/grade'),
         ];
     }
 }

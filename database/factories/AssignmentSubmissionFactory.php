@@ -29,13 +29,7 @@ class AssignmentSubmissionFactory extends Factory
             'assignment_id' => $assignment->id,
             'user_id' => $student->id,
             'type' => fake()->randomElement(['text', 'file']),
-            'file' => fake()->file(storage_path('app/public/samples'), storage_path('app/public/assignments'), 'pdf'),
-            'resources' => fake()->randomElements([
-                fake()->file(storage_path('app/public/samples'), storage_path('app/public/assignments'), 'pdf'),
-                fake()->file(storage_path('app/public/samples'), storage_path('app/public/assignments'), 'pdf'),
-                fake()->file(storage_path('app/public/samples'), storage_path('app/public/assignments'), 'pdf'),
-                fake()->file(storage_path('app/public/samples'), storage_path('app/public/assignments'), 'pdf'),
-            ], fake()->numberBetween(1, 4)),
+            'file' => null,
             'text' => fake()->realText(100),
         ];
     }

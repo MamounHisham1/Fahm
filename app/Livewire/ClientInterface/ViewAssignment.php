@@ -3,6 +3,8 @@
 namespace App\Livewire\ClientInterface;
 
 use App\Models\Assignment;
+use App\Models\User;
+use App\Notifications\NewAssignmentSubmission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
 use Livewire\Attributes\Layout;
@@ -60,6 +62,15 @@ class ViewAssignment extends Component
         }
 
         $this->submission = $this->assignment->submissions()->create($submission);
+
+        // Notify teachers about the new submission
+        $teachers = User::where('client_id', $this->client->id)
+            ->where('role', 'teacher')
+            ->get();
+
+        foreach ($teachers as $teacher) {
+            $teacher->notify(new NewAssignmentSubmission($this->submission));
+        }
 
         if ($this->assignment->status === 'pending') {
             $this->assignment->update(['status' => 'submitted']);

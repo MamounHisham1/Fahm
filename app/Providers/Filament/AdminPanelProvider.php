@@ -46,6 +46,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                \App\Filament\Widgets\AssignmentStatsWidget::class,
+                \App\Filament\Widgets\GradeStatisticsWidget::class,
+                \App\Filament\Widgets\SubmissionTrendsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
