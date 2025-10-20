@@ -58,10 +58,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <span class="text-2xl font-bold text-gray-900">{{ count($upcomingDeadlines ?? []) }}</span>
+                <span class="text-2xl font-bold text-gray-900">{{ count($upcomingDeadlines) }}</span>
             </div>
             <h3 class="mt-4 text-sm font-medium text-gray-900">Upcoming Deadlines</h3>
-            <p class="mt-1 text-sm text-gray-600">Next due: {{ $upcomingDeadlines[0]['due_date'] ?? 'None' }}</p>
+            <p class="mt-1 text-sm text-gray-600">Next due: {{ count($upcomingDeadlines) > 0 ? $upcomingDeadlines[0]['due_date'] : 'None' }}</p>
         </div>
 
         <!-- Achievements -->
@@ -72,10 +72,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                     </svg>
                 </div>
-                <span class="text-2xl font-bold text-gray-900">{{ count($achievements ?? []) }}</span>
+                <span class="text-2xl font-bold text-gray-900">{{ count($achievements) }}</span>
             </div>
             <h3 class="mt-4 text-sm font-medium text-gray-900">Achievements Earned</h3>
-            <p class="mt-1 text-sm text-gray-600">Latest: {{ $achievements[0]['name'] ?? 'None' }}</p>
+            <p class="mt-1 text-sm text-gray-600">Latest: {{ count($achievements) > 0 ? $achievements[0]['name'] : 'None' }}</p>
         </div>
     </div>
 
@@ -85,7 +85,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
             <div class="space-y-4">
-                @forelse($weeklyActivity['recent'] ?? [] as $activity)
+                @forelse($weeklyActivity['recent'] as $activity)
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0">
                             <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
@@ -96,10 +96,10 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900 truncate">
-                                {{ $activity['description'] ?? 'Completed Lesson' }}
+                                {{ $activity['description'] }}
                             </p>
                             <p class="text-sm text-gray-500">
-                                {{ $activity['time'] ?? '2 hours ago' }}
+                                {{ $activity['time'] }}
                             </p>
                         </div>
                     </div>
@@ -109,11 +109,11 @@
             </div>
         </div>
 
-        <!-- Recommended Resources -->
+        <!-- Recommended Lessons -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Recommended Resources</h2>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Recommended Lessons</h2>
             <div class="space-y-4">
-                @forelse($recommendedResources ?? [] as $resource)
+                @forelse($recommendedResources as $resource)
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0">
                             <div class="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center">
@@ -124,14 +124,14 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900 truncate">
-                                {{ $resource['title'] ?? 'Introduction to Course' }}
+                                {{ $resource['title'] }}
                             </p>
-                            <p class="text-sm text-gray-500">
-                                {{ $resource['type'] ?? 'Course' }} • {{ $resource['duration'] ?? '2h 30m' }}
-                            </p>
+                            {{-- <p class="text-sm text-gray-500">
+                                {{ $resource['type'] }} • {{ $resource['duration'] }}
+                            </p> --}}
                         </div>
                         <div>
-                            <a href="{{ $resource['url'] ?? '#' }}" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <a href="{{ $resource['url'] }}" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 Start
                             </a>
                         </div>
