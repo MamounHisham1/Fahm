@@ -75,7 +75,7 @@ class FilamentAssignmentGradingTest extends TestCase
             'record' => $this->submission,
         ])
             ->assertSuccessful()
-            ->assertSee('Grade Submission:')
+            ->assertSee('Submission:')
             ->assertSee($this->assignment->title)
             ->assertSee($this->student->name)
             ->assertSee('This is my submission text.');

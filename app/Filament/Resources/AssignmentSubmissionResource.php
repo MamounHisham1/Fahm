@@ -45,6 +45,7 @@ class AssignmentSubmissionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(fn ($query) => $query->with(['grades', 'assignment']))
             ->columns([
                 Tables\Columns\TextColumn::make('assignment.title')
                     ->limit(10)
@@ -69,10 +70,10 @@ class AssignmentSubmissionResource extends Resource
                         'Pending' => 'warning',
                         default => 'gray',
                     }),
-                Tables\Columns\TextColumn::make('grades.score')
+                Tables\Columns\TextColumn::make('grades_score')
                     ->label('Score')
                     ->formatStateUsing(function ($state, AssignmentSubmission $record) {
-                        if ($record->grades->count() > 0) {
+                        if ($record->grades->isNotEmpty()) {
                             $grade = $record->grades->first();
 
                             return $grade->score.' / '.$record->assignment->max_score;
