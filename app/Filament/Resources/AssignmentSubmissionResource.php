@@ -14,6 +14,8 @@ class AssignmentSubmissionResource extends Resource
 {
     protected static ?string $model = AssignmentSubmission::class;
 
+    protected static ?string $modelLabel = 'Submission';
+
     protected static ?string $navigationGroup = 'Assignments';
 
     protected static ?string $navigationLabel = 'Submissions';
@@ -45,7 +47,6 @@ class AssignmentSubmissionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(fn ($query) => $query->with(['grades', 'assignment']))
             ->columns([
                 Tables\Columns\TextColumn::make('assignment.title')
                     ->limit(10)
@@ -56,8 +57,8 @@ class AssignmentSubmissionResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Grade Status')
-                    ->formatStateUsing(function ($state, AssignmentSubmission $record) {
+                    ->label('Status')
+                    ->default(function($record) {
                         if ($record->grades->isNotEmpty()) {
                             return 'Graded';
                         }
@@ -90,6 +91,7 @@ class AssignmentSubmissionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -123,5 +125,10 @@ class AssignmentSubmissionResource extends Resource
             'edit' => Pages\EditAssignmentSubmission::route('/{record}/edit'),
             'grade' => Pages\GradeAssignmentSubmission::route('/{record}/grade'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['grades', 'assignment']);
     }
 }

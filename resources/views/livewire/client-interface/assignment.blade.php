@@ -53,7 +53,7 @@
                                 {{ $assignment->title }}
                             </h2>
                             @if ($assignment->submissions()->where('user_id', Auth::id())->exists())
-                                @php $submission = $assignment->submissions()->where('user_id', request()->user()->id())->first() @endphp
+                                @php $submission = $assignment->submissions()->where('user_id', Auth::id())->first() @endphp
                                 @if ($submission->grades->isNotEmpty())
                                     <span
                                         class="inline-flex items-center gap-1 text-sm font-medium text-blue-800 bg-blue-100 px-2.5 py-1 rounded-full">

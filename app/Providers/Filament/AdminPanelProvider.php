@@ -32,6 +32,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->domain(Context::getHidden('client')?->domain)
             // ->darkMode()
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('10s')
             ->sidebarWidth('200px')
             ->login()
             ->colors([

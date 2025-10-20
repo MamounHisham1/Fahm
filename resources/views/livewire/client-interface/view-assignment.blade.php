@@ -120,8 +120,7 @@
                         <div class="space-y-3">
                             <label
                                 class="flex items-center p-3 gap-3 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
-                                :class="{ 'bg-blue-50 border-blue-200': $wire
-                                        .type === 'file' }">
+                                :class="{ 'bg-blue-50 border-blue-200': $wire.type === 'file' }">
                                 <input type="radio" name="type" wire:model="type" value="file"
                                     class="text-blue-600 focus:ring-blue-500">
                                 <div>
