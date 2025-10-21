@@ -99,6 +99,7 @@ class Home extends Component
             return [];
         }
 
+        // TODO: Only unsubmitted assignment, using "when()" i guess :)
         $deadlines = Assignment::where('client_id', $this->client->id)
             ->where('due_date', '>=', Carbon::now())
             ->where('due_date', '<=', Carbon::now()->addDays(7))
