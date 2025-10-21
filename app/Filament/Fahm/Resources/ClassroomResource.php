@@ -25,14 +25,8 @@ class ClassroomResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255)
-                            ->placeholder('Enter classroom name (e.g., Grade 10-A)')
+                            ->placeholder('Enter classroom name (e.g., Classroom 1)')
                             ->helperText('This will be the display name for the classroom'),
-                        Forms\Components\Select::make('grade_id')
-                            ->relationship('grade', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload()
-                            ->placeholder('Select grade level'),
                     ])
                     ->columns(2),
                 Forms\Components\Section::make('Additional Information')
@@ -50,21 +44,13 @@ class ClassroomResource extends Resource
         return $table
             ->query(
                 Classroom::query()
-                    ->where('client_id', auth()->user()->client_id)
-                    ->with('grade')
+                    ->where('client_id', request()->user()->client_id)
             )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->weight('semibold'),
-
-                Tables\Columns\TextColumn::make('grade.name')
-                    ->label('Grade Level')
-                    ->searchable()
-                    ->sortable()
-                    ->badge()
-                    ->color('primary'),
 
                 Tables\Columns\TextColumn::make('description')
                     ->label('Description')
@@ -83,9 +69,7 @@ class ClassroomResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('grade_id')
-                    ->relationship('grade', 'name')
-                    ->label('Filter by Grade'),
+                // 
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

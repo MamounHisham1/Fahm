@@ -24,11 +24,13 @@ class BindDomain
         
         $subdomain = $domainParts[0] ?? null;
         $client = Client::where('domain', $subdomain)->first();
+
         if (! $subdomain || ! $client) {
             abort(404);
         }
-        Context::addHidden('client', $client);
 
+        Context::addHidden('client', $client);
+        
         return $next($request);
     }
 }
