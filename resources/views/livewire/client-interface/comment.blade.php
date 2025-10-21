@@ -32,7 +32,7 @@
                         </div>
 
                         <div
-                            class="bg-gray-50 rounded-xl p-4 text-gray-700 text-sm leading-relaxed shadow-sm">
+                            class="bg-white rounded-xl p-4 text-gray-900 font-semibold leading-relaxed shadow-sm border border-gray-100">
                             {{ $comment->body }}
                         </div>
 
@@ -90,7 +90,7 @@
                                                 </div>
 
                                                 <div
-                                                    class="bg-gray-50 rounded-xl p-3 text-sm text-gray-700 border-l-2 border-blue-400 shadow-sm">
+                                                    class="bg-white rounded-xl p-3 text-sm text-gray-600 border-l-2 border-blue-400 shadow-sm border border-gray-100">
                                                     {{ $reply->body }}
                                                 </div>
 
@@ -189,7 +189,7 @@
                 {{-- Replying textarea --}}
                 @if ($replyingForm && $replyingTo === $comment->id)
                     <div
-                        class="my-4 ml-14 bg-gray-50/50 rounded-lg p-4 border border-gray-100 shadow-sm">
+                        class="my-4 ml-14 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
                         <div class="flex items-start space-x-3">
                             <div class="flex-shrink-0">
                                 <div
@@ -239,7 +239,7 @@
         @if (count($comments) === 0)
             <div class="text-center py-6">
                 <div
-                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 mb-4">
+                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-50 mb-4">
                     <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -251,11 +251,11 @@
 
         <!-- Comment Form -->
         <div class="mt-6 pt-4 border-t border-gray-200">
-            <h4 class="text-sm font-medium text-gray-900 mb-3">Add a comment</h4>
+            {{-- <h4 class="text-sm font-medium text-gray-900 mb-3">Add a comment</h4> --}}
             <div class="flex items-start">
                 <div class="flex-shrink-0 mr-3">
                     <div
-                        class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600">
+                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -264,7 +264,7 @@
                 </div>
                 <div class="flex-1">
                     <textarea rows="3"
-                        class="w-full px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        class="w-full px-3 py-2 text-sm text-black border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-800"
                         placeholder="Write your comment here..." wire:model="comment"></textarea>
                     <div class="mt-2 flex justify-end">
                         <button wire:click="addComment"

@@ -96,7 +96,7 @@
             @if ($selectedLesson->public_id || $selectedLesson->type == 'youtube')
                 <div
                     class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="aspect-video bg-gray-900 w-full relative">
+                    <div class="aspect-video bg-gray-200 w-full relative">
                         @if ($selectedLesson && $selectedLesson->public_id)
                             <livewire:video-player :videoPublicId="$selectedLesson->public_id" />
                             <livewire:client-interface.comment :lesson="$selectedLesson" />
