@@ -7,12 +7,11 @@ use Livewire\Component;
 class VideoPlayer extends Component
 {
     public $videoPublicId;
-
     public $cloudName;
 
     public function mount()
     {
-        $this->cloudName = env('CLOUDINARY_CLOUD_NAME');
+        $this->cloudName = config('cloudinary.cloud_name');
     }
 
     public function render()

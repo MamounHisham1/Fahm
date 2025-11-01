@@ -14,7 +14,6 @@ class Subject extends Component
     use WithPagination;
 
     public $client;
-
     public $search = '';
 
     public function mount()
@@ -24,13 +23,7 @@ class Subject extends Component
 
     public function render()
     {
-        $subjects = SubjectModel::where('client_id', $this->client->id)
-            ->when($this->search, function ($query) {
-                return $query->where('name', 'like', '%'.$this->search.'%');
-            })
-            ->withCount('lessons')
-            ->orderBy('name')
-            ->paginate(12);
+        $subjects = $this->getSubjectsWithSearchQuery();
 
         return view('livewire.client-interface.subject', [
             'subjects' => $subjects,
@@ -41,5 +34,16 @@ class Subject extends Component
     {
         $this->search = '';
         $this->resetPage();
+    }
+
+    private function getSubjectsWithSearchQuery()
+    {
+        return SubjectModel::where('client_id', $this->client->id)
+        ->when($this->search, function ($query) {
+            return $query->where('name', 'like', '%'.$this->search.'%');
+        })
+        ->withCount('lessons')
+        ->orderBy('name')
+        ->paginate(12);
     }
 }

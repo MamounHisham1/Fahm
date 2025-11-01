@@ -16,42 +16,28 @@ class Lesson extends Component
     use WithPagination;
 
     public $client;
-
     public $subject;
-
     public $search = '';
-
     public $selectedLesson = null;
 
     public function mount(Subject $subject, LessonModel $lesson)
     {
         $this->client = Context::getHidden('client');
+        
         $this->subject = $subject;
 
-        if ($lesson->client_id !== $this->client->id) {
-            abort(404);
-        }
+        abort_if($lesson->client_id !== $this->client->id, 404);
 
-        if (! $this->subject->lessons->contains($lesson)) {
-            abort(404);
-        }
+        abort_if(! $this->subject->lessons->contains($lesson), 404);
+
         $this->selectedLesson = $lesson;
 
-        if (! Auth::user()->lessonsViewed()->where('lesson_id', $lesson->id)->exists()) {
-            Auth::user()->lessonsViewed()->attach($lesson);
-        }
+        $this->markAsViewed($lesson);
     }
 
     public function render()
     {
-        $lessons = LessonModel::where('client_id', $this->client->id)
-            ->where('subject_id', $this->subject->id)
-            ->when($this->search, function ($query) {
-                return $query->where('title', 'like', '%'.$this->search.'%');
-            })
-            ->with(['teacher'])
-            ->orderBy('created_at', 'asc')
-            ->paginate(30);
+        $lessons = $this->getLessonsWithSearchQuery();
 
         return view('livewire.client-interface.lesson', ['lessons' => $lessons]);
     }
@@ -60,5 +46,24 @@ class Lesson extends Component
     {
         $this->search = '';
         $this->resetPage();
+    }
+
+    private function markAsViewed(LessonModel $lesson)
+    {
+        if (! Auth::user()->lessonsViewed()->where('lesson_id', $lesson->id)->exists()) {
+            Auth::user()->lessonsViewed()->attach($lesson);
+        }
+    }
+
+    private function getLessonsWithSearchQuery()
+    {
+        return LessonModel::where('client_id', $this->client->id)
+        ->where('subject_id', $this->subject->id)
+        ->when($this->search, function ($query) {
+            return $query->where('title', 'like', '%'.$this->search.'%');
+        })
+        ->with(['teacher'])
+        ->orderBy('created_at', 'asc')
+        ->paginate(30);
     }
 }

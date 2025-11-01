@@ -17,13 +17,8 @@ use Livewire\Component;
 class Login extends Component
 {
     public $client;
-
-    #[Validate('required|string|email')]
     public string $email = '';
-
-    #[Validate('required|string')]
     public string $password = '';
-
     public bool $remember = false;
 
     public function mount()
@@ -31,36 +26,24 @@ class Login extends Component
         $this->client = Context::getHidden('client');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function login(): void
     {
-        $this->validate();
+        $this->validate([
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
+        ]);
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt([
-            'email' => $this->email,
-            'password' => $this->password,
-            'client_id' => $this->client->id,
-        ], $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
+        $this->attemptLogin();
 
         RateLimiter::clear($this->throttleKey());
+
         Session::regenerate();
 
         $this->redirectIntended(route('client.home', $this->client), navigate: true);
     }
 
-    /**
-     * Ensure the authentication request is not rate limited.
-     */
     protected function ensureIsNotRateLimited(): void
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
@@ -79,11 +62,23 @@ class Login extends Component
         ]);
     }
 
-    /**
-     * Get the authentication rate limiting throttle key.
-     */
     protected function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+    }
+
+    private function attemptLogin()
+    {
+        if (! Auth::attempt([
+            'email' => $this->email,
+            'password' => $this->password,
+            'client_id' => $this->client->id,
+        ], $this->remember)) {
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => __('auth.failed'),
+            ]);
+        }
     }
 }

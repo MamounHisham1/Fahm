@@ -18,30 +18,27 @@ class ViewAssignment extends Component
 {
     use WithFileUploads;
 
-    public $assignment;
-
     public $client;
-
+    public $assignment;
     public $submission;
-
     public $file;
-
     public $text;
-
     public $type = 'file';
-
     public $alerts = [];
 
     public function mount(Assignment $assignment)
     {
         $this->client = Context::getHidden('client');
 
-        if ($assignment->client_id !== $this->client->id) {
-            abort(404);
-        }
+        abort_if($assignment->client_id !== $this->client->id, 404);
 
         $this->assignment = $assignment;
         $this->submission = $this->assignment->submissions()->where('user_id', Auth::id())->first();
+    }
+
+    public function render()
+    {
+        return view('livewire.client-interface.view-assignment');
     }
 
     public function submitAssignment()
@@ -52,34 +49,13 @@ class ViewAssignment extends Component
             'text' => ['required_if:type,text', 'nullable', 'string'],
         ]);
 
-        $submission = [
-            'user_id' => Auth::id(),
-            'type' => $this->type,
-        ];
+        $this->createSubmission();
 
-        if ($this->type === 'file') {
-            $submission['file'] = $this->file->store('assignments');
-        } elseif ($this->type === 'text') {
-            $submission['text'] = $this->text;
-        }
+        $this->updateStatus();
 
-        $this->submission = $this->assignment->submissions()->create($submission);
+        $this->notifyTeachers();
 
-        $teachers = User::where('client_id', $this->client->id)
-            ->where('role', '!==', UserRole::Student)
-            ->get();
-
-        foreach ($teachers as $teacher) {
-            Notification::make()->title('test')
-                ->sendToDatabase($teacher);
-        }
-
-        if ($this->assignment->status === 'pending') {
-            $this->assignment->update(['status' => 'submitted']);
-        }
-
-        $this->file = null;
-        $this->text = null;
+        $this->resetForm();
 
         $this->alerts[] = [
             'type' => 'success',
@@ -87,8 +63,42 @@ class ViewAssignment extends Component
         ];
     }
 
-    public function render()
+    private function createSubmission()
     {
-        return view('livewire.client-interface.view-assignment');
+        $submission = [
+            'user_id' => request()->user()->id,
+            'type' => $this->type,
+        ];
+
+        $this->type === 'file' ? $submission['file'] = $this->file->store('assignments', 'public') : $submission['text'] = $this->text;
+
+        $this->submission = $this->assignment->submissions()->create($submission);
+    }
+
+    private function updateStatus()
+    {
+        if ($this->assignment->status === 'pending') {
+            $this->assignment->update(['status' => 'submitted']);
+        }
+    }
+
+    private function notifyTeachers()
+    {
+        $teachers = User::where('client_id', $this->client->id)
+            ->where('role', '!==', UserRole::Student)
+            ->get();
+
+        foreach ($teachers as $teacher) {
+            Notification::make()
+                ->title('New assignment submitted')
+                ->body('A new assignment has been submitted by ' . Auth::user()->name . ' for ' . $this->assignment->title)
+                ->sendToDatabase($teacher);
+        }
+    }
+
+    private function resetForm()
+    {
+        $this->file = null;
+        $this->text = null;
     }
 }

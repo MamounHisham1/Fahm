@@ -14,17 +14,11 @@ use Livewire\Component;
 class Home extends Component
 {
     public $client;
-
     public $viewedLessons;
-
     public $totalLessons;
-
     public $weeklyActivity;
-
     public $upcomingDeadlines;
-
     public $achievements;
-
     public $recommendedResources;
 
     public function mount()

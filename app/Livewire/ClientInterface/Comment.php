@@ -9,19 +9,13 @@ use Livewire\Component;
 class Comment extends Component
 {
     public $lesson;
-
     public $comments;
-
     public $comment;
-
     public $replayText;
-
     public $alerts = [];
-
     public $replyingTo = null;
-
     public $replyingForm = false;
-
+    
     protected $listeners = ['clearAlert'];
 
     public function mount($lesson)

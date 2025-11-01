@@ -31,7 +31,19 @@ class Assignment extends Component
 
     public function render()
     {
-        $assignments = AssignmentModel::query()
+        $assignments = $this->getAssignmentsWithFilters();
+
+        $subjects = $this->client->subjects;
+
+        return view('livewire.client-interface.assignment', [
+            'assignments' => $assignments,
+            'subjects' => $subjects,
+        ]);
+    }
+
+    private function getAssignmentsWithFilters()
+    {
+        return AssignmentModel::query()
             ->where('client_id', $this->client->id)
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
@@ -62,12 +74,5 @@ class Assignment extends Component
             ->with(['subject', 'submissions.grades'])
             ->latest()
             ->paginate(10);
-
-        $subjects = $this->client->subjects;
-
-        return view('livewire.client-interface.assignment', [
-            'assignments' => $assignments,
-            'subjects' => $subjects,
-        ]);
     }
 }

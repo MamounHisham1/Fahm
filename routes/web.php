@@ -4,7 +4,6 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Middleware\AuthenticationCheck;
 use App\Livewire\ClientInterface\Assignment;
 use App\Livewire\ClientInterface\Home;
-use App\Livewire\ClientInterface\Lecture;
 use App\Livewire\ClientInterface\Lesson;
 use App\Livewire\ClientInterface\Login;
 use App\Livewire\ClientInterface\Register;
@@ -15,7 +14,7 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-$domain = str_replace('https://', '', env('APP_URL'));
+$domain = str_replace('https://', '', config('app.url'));
 
 Route::domain($domain)->group(function () {
     Route::view('/', 'home')->name('home');
@@ -36,7 +35,6 @@ Route::middleware('bindDomain')->group(function () {
         Route::get('/', Home::class)->name('client.home');
         Route::get('/assignments', Assignment::class)->name('client.assignments');
         Route::get('/assignments/{assignment}', ViewAssignment::class)->name('client.assignments.show');
-        // Route::get('/lectures', Lecture::class)->name('client.lectures');
         Route::get('/subjects', Subject::class)->name('client.subjects');
         Route::get('/subjects/{subject}/lessons/{lesson}', Lesson::class)->name('client.lessons.show');
     });

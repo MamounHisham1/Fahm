@@ -22,25 +22,15 @@ class Register extends Component
     use WithFileUploads;
 
     public $name;
-
     public $email;
-
     public $password;
-
     public $password_confirmation;
-
     public $gender;
-
     public $phone;
-
     public $address;
-
     public $bio;
-
     public $avatar;
-
     public $terms = false;
-
     public $client;
 
     public function mount()
@@ -48,9 +38,38 @@ class Register extends Component
         $this->client = Context::getHidden('client');
     }
 
+    public function render()
+    {
+        return view('livewire.client-interface.register');
+    }
+
     public function register(): void
     {
-        $validated = $this->validate([
+        $validated = $this->validatedData();
+
+        DB::beginTransaction();
+
+        try {
+            $user = $this->createUser($validated);
+
+            $this->createProfile($user, $validated);
+
+            event(new Registered($user));
+
+            Auth::login($user);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        $this->redirect(route('client.home'), navigate: true);
+    }
+
+    private function validatedData()
+    {
+        return $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
@@ -69,44 +88,34 @@ class Register extends Component
             'avatar' => ['nullable', 'image', 'max:2048'],
             'terms' => ['accepted'],
         ]);
-
-        DB::beginTransaction();
-        if (isset($this->avatar)) {
-            $avatarPath = $this->avatar->store('avatars');
-        }
-
-        try {
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'client_id' => $this->client->id,
-                'role' => UserRole::Student,
-            ]);
-
-            Profile::create([
-                'user_id' => $user->id,
-                'client_id' => $this->client->id,
-                'avatar' => $avatarPath ?? null,
-                'gender' => $validated['gender'],
-                'phone' => $validated['phone'],
-                'address' => $validated['address'],
-                'bio' => $validated['bio'],
-            ]);
-            event(new Registered($user));
-
-            Auth::login($user);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-        $this->redirect(route('client.home'), navigate: true);
     }
 
-    public function render()
+    private function saveAvatar()
     {
-        return view('livewire.client-interface.register');
+        return $this->avatar ? $this->avatar->store('avatars', 'public') : null;
+    }
+
+    private function createUser($validated)
+    {
+        return User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'client_id' => $this->client->id,
+            'role' => UserRole::Student,
+        ]);
+    }
+
+    private function createProfile($user, $validated)
+    {
+        Profile::create([
+            'user_id' => $user->id,
+            'client_id' => $this->client->id,
+            'avatar' => $this->saveAvatar(),
+            'gender' => $validated['gender'],
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
+            'bio' => $validated['bio'],
+        ]);
     }
 }
